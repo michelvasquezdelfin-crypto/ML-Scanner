@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ML Scanner â MercadoLibre</title>
+<title>ML Scanner — MercadoLibre</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -33,7 +33,7 @@
 html, body { height:100%; overflow:hidden; }
 body { font-family:var(--sans); background:var(--bg); color:var(--text); display:flex; flex-direction:column; }
 
-/* ââ HEADER ââ */
+/* ── HEADER ── */
 .header {
   background:var(--ml-blue);
   border-bottom:3px solid var(--ml-yellow);
@@ -47,84 +47,69 @@ body { font-family:var(--sans); background:var(--bg); color:var(--text); display
   z-index:50;
 }
 .logo { display:flex; align-items:center; gap:10px; }
-.logo-badge {
-  width:34px; height:34px;
-  background:var(--ml-yellow);
-  border-radius:8px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:18px;
-  box-shadow:0 2px 8px rgba(255,230,0,.4);
-}
+.logo-badge { width:34px; height:34px; background:var(--ml-yellow); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 2px 8px rgba(255,230,0,.4); }
 .logo-text { line-height:1.1; }
 .logo-name { font-size:15px; font-weight:900; color:var(--ml-yellow); letter-spacing:-.3px; }
 .logo-sub { font-size:9px; font-weight:600; color:rgba(255,255,255,.6); letter-spacing:1.5px; text-transform:uppercase; }
 .header-actions { display:flex; align-items:center; gap:8px; }
-.sheets-badge {
-  display:flex; align-items:center; gap:5px;
-  padding:5px 10px;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:20px;
-  font-size:11px; font-weight:700; color:#fff;
-  cursor:pointer; font-family:var(--mono);
-  transition:all .2s;
-}
+.sheets-badge { display:flex; align-items:center; gap:5px; padding:5px 10px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); border-radius:20px; font-size:11px; font-weight:700; color:#fff; cursor:pointer; font-family:var(--mono); transition:all .2s; }
 .sheets-badge.ok { background:rgba(0,166,80,.2); border-color:rgba(0,166,80,.4); color:#4ade80; }
 .sheets-badge.syncing { background:rgba(255,230,0,.15); border-color:rgba(255,230,0,.3); color:var(--ml-yellow); }
 .sheets-badge.error { background:rgba(229,57,53,.15); border-color:rgba(229,57,53,.3); color:#f87171; }
 .sdot { width:6px; height:6px; border-radius:50%; background:currentColor; }
 .sdot.pulse { animation:pulse-dot .8s infinite; }
 @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-/* ââ MAIN CONTENT ââ */
 .main { flex:1; overflow:hidden; position:relative; }
 .screen { position:absolute; inset:0; overflow-y:auto; display:none; flex-direction:column; }
 .screen.active { display:flex; }
-
-/* ââ NAV ââ */
-.nav {
-  height:64px; flex-shrink:0;
-  background:var(--surface);
-  border-top:1px solid var(--border);
-  display:flex;
-  box-shadow:0 -4px 20px rgba(45,50,119,.06);
-  z-index:50;
-  position:relative;
-}
-.nav-btn {
-  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:3px; border:none; background:transparent; cursor:pointer;
-  color:var(--muted); transition:all .2s; position:relative; padding:8px 0;
-}
+.nav { height:64px; flex-shrink:0; background:var(--surface); border-top:1px solid var(--border); display:flex; box-shadow:0 -4px 20px rgba(45,50,119,.06); z-index:50; position:relative; }
+.nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border:none; background:transparent; cursor:pointer; color:var(--muted); transition:all .2s; position:relative; padding:8px 0; }
 .nav-btn.active { color:var(--ml-blue); }
-.nav-btn.active::after {
-  content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-  width:32px; height:3px; background:var(--ml-blue); border-radius:2px 2px 0 0;
-}
+.nav-btn.active::after { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:32px; height:3px; background:var(--ml-blue); border-radius:2px 2px 0 0; }
 .nav-icon { font-size:20px; line-height:1; }
-.nav-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }urface); flex-shrink:0;
-  border-top:1px solid var(--border);
-  display:none;
-  animation:slideUp .3s ease;
-}
+.nav-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+#screen-scanner { background:#000; }
+.camera-wrap { position:relative; width:100%; background:#000; flex-shrink:0; }
+#video { width:100%; display:block; max-height:52vh; object-fit:cover; }
+.cam-overlay { position:absolute; inset:0; pointer-events:none; }
+.scan-frame { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:86%; height:66%; border:2px solid rgba(45,50,119,.5); border-radius:12px; }
+.corner { position:absolute; width:20px; height:20px; border-color:var(--ml-yellow); border-style:solid; }
+.corner.tl { top:-2px; left:-2px; border-width:3px 0 0 3px; border-radius:6px 0 0 0; }
+.corner.tr { top:-2px; right:-2px; border-width:3px 3px 0 0; border-radius:0 6px 0 0; }
+.corner.bl { bottom:-2px; left:-2px; border-width:0 0 3px 3px; border-radius:0 0 0 6px; }
+.corner.br { bottom:-2px; right:-2px; border-width:0 3px 3px 0; border-radius:0 0 6px 0; }
+.scan-line { position:absolute; left:8%; right:8%; height:2px; background:linear-gradient(90deg,transparent,var(--ml-yellow),transparent); box-shadow:0 0 10px var(--ml-yellow), 0 0 20px rgba(255,230,0,.4); animation:scan 2.5s ease-in-out infinite; }
+@keyframes scan { 0%{top:18%;opacity:1} 45%{top:78%;opacity:1} 50%{opacity:0} 55%{top:18%;opacity:0} 60%{opacity:1} 100%{top:78%;opacity:1} }
+.field-hints { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; }
+.field-hints-inner { width:82%; display:flex; flex-direction:column; gap:4px; transform:translateY(-6px); }
+.hint { display:flex; align-items:center; gap:7px; padding:4px 9px; border-radius:6px; background:rgba(0,0,0,.55); backdrop-filter:blur(6px); border-left:3px solid; font-family:var(--mono); font-size:9px; letter-spacing:.4px; color:#fff; }
+.hint.origen { border-color:#a78bfa; }
+.hint.id { border-color:#22d3ee; }
+.hint.fecha { border-color:var(--ml-green); }
+.cam-controls { background:var(--surface); padding:14px 24px; display:flex; align-items:center; justify-content:center; gap:24px; border-bottom:1px solid var(--border); flex-shrink:0; }
+.ctrl { width:46px; height:46px; border-radius:14px; background:var(--bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; color:var(--text-2); transition:all .2s; }
+.ctrl:hover { background:var(--border); }
+.capture-btn { width:68px; height:68px; border-radius:50%; background:linear-gradient(135deg, var(--ml-blue), var(--ml-blue-light)); border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:28px; box-shadow:0 4px 20px rgba(45,50,119,.4), 0 0 0 4px rgba(45,50,119,.12); transition:all .15s; position:relative; }
+.capture-btn:active { transform:scale(.93); }
+.capture-btn::after { content:''; position:absolute; inset:-6px; border-radius:50%; border:2px solid rgba(255,230,0,.35); animation:ring 2s infinite; }
+@keyframes ring { 0%,100%{transform:scale(1);opacity:.6} 50%{transform:scale(1.08);opacity:0} }
+.no-camera { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; text-align:center; padding:40px 24px; background:var(--bg); }
+.no-camera-icon { font-size:52px; opacity:.3; }
+.no-camera h3 { font-size:17px; font-weight:800; color:var(--text); }
+.no-camera p { font-size:13px; color:var(--muted); line-height:1.6; }
+.btn-allow { margin-top:8px; padding:12px 28px; background:var(--ml-blue); color:#fff; border:none; border-radius:12px; font-family:var(--sans); font-size:14px; font-weight:700; cursor:pointer; transition:all .2s; }
+.btn-allow:hover { background:var(--ml-blue-light); }
+.live-result { background:var(--surface); flex-shrink:0; border-top:1px solid var(--border); display:none; animation:slideUp .3s ease; }
 .live-result.show { display:block; }
 @keyframes slideUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-.lr-header {
-  padding:10px 16px;
-  background:var(--ml-blue);
-  display:flex; align-items:center; justify-content:space-between;
-}
+.lr-header { padding:10px 16px; background:var(--ml-blue); display:flex; align-items:center; justify-content:space-between; }
 .lr-header-left { display:flex; align-items:center; gap:8px; }
 .lr-title { font-family:var(--mono); font-size:10px; color:#fff; letter-spacing:2px; text-transform:uppercase; }
 .lr-sync { font-size:10px; font-weight:700; padding:3px 8px; border-radius:10px; }
 .lr-sync.ok { background:rgba(0,166,80,.2); color:#4ade80; }
 .lr-sync.local { background:rgba(255,230,0,.15); color:var(--ml-yellow); }
 .lr-fields { padding:12px 14px; display:flex; flex-direction:column; gap:8px; }
-.lr-field {
-  display:flex; align-items:flex-start; gap:10px;
-  padding:10px 12px; border-radius:10px;
-  background:#f8f9ff; border:1px solid var(--border);
-}
+.lr-field { display:flex; align-items:flex-start; gap:10px; padding:10px 12px; border-radius:10px; background:#f8f9ff; border:1px solid var(--border); }
 .lr-ico { font-size:18px; flex-shrink:0; margin-top:1px; }
 .lr-info { flex:1; min-width:0; }
 .lr-label { font-family:var(--mono); font-size:8px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:2px; }
@@ -137,11 +122,63 @@ body { font-family:var(--sans); background:var(--bg); color:var(--text); display
 .conf-track { flex:1; height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
 .conf-fill { height:100%; border-radius:3px; transition:width .8s cubic-bezier(.34,1.56,.64,1); }
 .conf-pct { font-family:var(--mono); font-size:10px; color:var(--ml-blue); font-weight:700; }
-
-/* Upload input */
 #fileInput { display:none; }
 canvas { display:none; }
-t:100%; border-radius:5px; transition:width 1s cubic-bezier(.34,1.2,.64,1); }
+#screen-history { background:var(--bg); }
+.screen-header { background:var(--surface); padding:16px 20px 12px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; box-shadow:var(--shadow); position:sticky; top:0; z-index:10; }
+.screen-title { font-size:18px; font-weight:900; color:var(--text); }
+.count-badge { padding:4px 12px; background:var(--ml-blue); color:#fff; border-radius:20px; font-family:var(--mono); font-size:11px; font-weight:700; }
+.filter-bar { padding:10px 16px; background:var(--surface); border-bottom:1px solid var(--border); flex-shrink:0; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; }
+.filter-chip { padding:6px 14px; border-radius:20px; border:1px solid var(--border); background:transparent; color:var(--muted); font-family:var(--sans); font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; transition:all .2s; }
+.filter-chip.active { background:var(--ml-blue); color:#fff; border-color:var(--ml-blue); }
+.pkg-list { padding:12px 16px 20px; display:flex; flex-direction:column; gap:10px; }
+.pkg-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; cursor:pointer; transition:all .2s; box-shadow:0 1px 4px rgba(45,50,119,.06); animation:fadeIn .3s ease; }
+.pkg-card:hover { border-color:var(--ml-blue); box-shadow:var(--shadow); transform:translateY(-1px); }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.pkg-card-top { display:flex; align-items:center; gap:12px; padding:12px 14px; border-bottom:1px solid var(--border); }
+.pkg-thumb { width:48px; height:48px; border-radius:10px; object-fit:cover; flex-shrink:0; }
+.pkg-thumb-ph { width:48px; height:48px; border-radius:10px; background:var(--bg); display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+.pkg-info { flex:1; min-width:0; }
+.pkg-id { font-family:var(--mono); font-size:12px; color:var(--ml-blue); font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pkg-date { font-size:11px; color:var(--muted); margin-top:2px; }
+.pkg-synced { font-size:9px; margin-top:2px; font-weight:700; }
+.pkg-synced.ok { color:var(--ml-green); }
+.pkg-synced.pending { color:var(--ml-orange); }
+.pkg-card-bottom { display:grid; grid-template-columns:1fr 1fr; padding:10px 14px 12px; gap:8px; }
+.pkg-field-label { font-family:var(--mono); font-size:8px; color:var(--muted); letter-spacing:1px; margin-bottom:2px; }
+.pkg-field-val { font-size:13px; font-weight:600; }
+.pkg-field-val.ok { color:var(--text); }
+.pkg-field-val.nd { color:var(--muted); font-style:italic; font-size:11px; }
+.fecha-badge { display:inline-block; padding:2px 8px; border-radius:6px; font-size:11px; font-weight:700; }
+.fb-ok { background:rgba(0,166,80,.12); color:var(--ml-green); }
+.fb-urgent { background:rgba(255,107,0,.12); color:var(--ml-orange); }
+.fb-late { background:rgba(229,57,53,.12); color:var(--ml-red); }
+.fb-nd { background:var(--bg); color:var(--muted); }
+.empty-state { text-align:center; padding:60px 24px; color:var(--muted); }
+.empty-icon { font-size:48px; display:block; margin-bottom:12px; opacity:.3; }
+.empty-title { font-size:16px; font-weight:800; color:var(--text); margin-bottom:6px; }
+.empty-text { font-size:13px; line-height:1.6; }
+#screen-dashboard { background:var(--bg); }
+.dash-scroll { padding:16px; display:flex; flex-direction:column; gap:14px; }
+.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.stat-card { background:var(--surface); border-radius:var(--radius); padding:16px 14px; border:1px solid var(--border); box-shadow:0 1px 4px rgba(45,50,119,.06); }
+.stat-card.featured { grid-column:1/-1; background:linear-gradient(135deg, var(--ml-blue), var(--ml-blue-light)); color:#fff; border-color:transparent; box-shadow:var(--shadow); }
+.stat-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--muted); margin-bottom:6px; }
+.stat-card.featured .stat-label { color:rgba(255,255,255,.7); }
+.stat-value { font-size:32px; font-weight:900; color:var(--ml-blue); line-height:1; }
+.stat-card.featured .stat-value { color:var(--ml-yellow); }
+.stat-sub { font-size:11px; color:var(--muted); margin-top:4px; }
+.stat-card.featured .stat-sub { color:rgba(255,255,255,.6); }
+.stat-icon { font-size:24px; margin-bottom:8px; }
+.section-title { font-size:13px; font-weight:800; color:var(--text); text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:8px; }
+.section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+.chart-card { background:var(--surface); border-radius:var(--radius); padding:16px; border:1px solid var(--border); box-shadow:0 1px 4px rgba(45,50,119,.06); }
+.chart-title { font-size:13px; font-weight:800; color:var(--text); margin-bottom:14px; }
+.bar-chart { display:flex; flex-direction:column; gap:8px; }
+.bar-row { display:flex; align-items:center; gap:10px; }
+.bar-label { font-size:11px; color:var(--text-2); font-weight:600; width:60px; flex-shrink:0; text-align:right; }
+.bar-track { flex:1; height:10px; background:var(--bg); border-radius:5px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:5px; transition:width 1s cubic-bezier(.34,1.2,.64,1); }
 .bar-val { font-family:var(--mono); font-size:10px; color:var(--muted); width:24px; text-align:right; }
 .sync-ring { display:flex; align-items:center; justify-content:center; padding:8px 0; }
 .ring-wrap { position:relative; width:100px; height:100px; }
@@ -157,32 +194,16 @@ t:100%; border-radius:5px; transition:width 1s cubic-bezier(.34,1.2,.64,1); }
 .ring-item-label { font-size:12px; color:var(--text-2); flex:1; }
 .ring-item-val { font-family:var(--mono); font-size:12px; font-weight:700; color:var(--text); }
 .sync-row { display:flex; align-items:center; }
-
-/* ââââââââââââââââââââââââââââââ
-   PANTALLA 4 â REPORTES
-ââââââââââââââââââââââââââââââ */
 #screen-reports { background:var(--bg); }
 .report-scroll { padding:16px; display:flex; flex-direction:column; gap:14px; }
-.report-card {
-  background:var(--surface); border-radius:var(--radius);
-  border:1px solid var(--border); overflow:hidden;
-  box-shadow:0 1px 4px rgba(45,50,119,.06);
-}
-.report-card-header {
-  padding:14px 16px; background:var(--ml-blue);
-  display:flex; align-items:center; gap:10px;
-}
+.report-card { background:var(--surface); border-radius:var(--radius); border:1px solid var(--border); overflow:hidden; box-shadow:0 1px 4px rgba(45,50,119,.06); }
+.report-card-header { padding:14px 16px; background:var(--ml-blue); display:flex; align-items:center; gap:10px; }
 .report-card-icon { font-size:22px; }
 .report-card-title { font-size:14px; font-weight:800; color:#fff; }
 .report-card-sub { font-size:11px; color:rgba(255,255,255,.6); margin-top:1px; }
 .report-card-body { padding:16px; }
 .export-btns { display:flex; flex-direction:column; gap:10px; }
-.export-btn {
-  display:flex; align-items:center; gap:12px;
-  padding:14px 16px; border-radius:12px;
-  border:1px solid var(--border); background:var(--bg);
-  cursor:pointer; transition:all .2s;
-}
+.export-btn { display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:12px; border:1px solid var(--border); background:var(--bg); cursor:pointer; transition:all .2s; }
 .export-btn:hover { border-color:var(--ml-blue); background:#f0f2ff; }
 .export-btn-icon { font-size:24px; flex-shrink:0; }
 .export-btn-text { flex:1; }
@@ -192,37 +213,52 @@ t:100%; border-radius:5px; transition:width 1s cubic-bezier(.34,1.2,.64,1); }
 .filter-section { display:flex; flex-direction:column; gap:10px; }
 .filter-row { display:flex; flex-direction:column; gap:4px; }
 .filter-label { font-size:12px; font-weight:700; color:var(--text-2); }
-.filter-select, .filter-input {
-  padding:10px 12px; border:1px solid var(--border);
-  border-radius:10px; background:var(--bg); color:var(--text);
-  font-family:var(--sans); font-size:13px; outline:none;
-}
+.filter-select, .filter-input { padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:var(--bg); color:var(--text); font-family:var(--sans); font-size:13px; outline:none; }
 .filter-select:focus, .filter-input:focus { border-color:var(--ml-blue); background:#fff; }
-.btn-filter {
-  padding:12px; background:var(--ml-blue); color:#fff;
-  border:none; border-radius:12px; font-family:var(--sans);
-  font-size:14px; font-weight:800; cursor:pointer; width:100%;
-  transition:all .2s;
-}
+.btn-filter { padding:12px; background:var(--ml-blue); color:#fff; border:none; border-radius:12px; font-family:var(--sans); font-size:14px; font-weight:800; cursor:pointer; width:100%; transition:all .2s; }
 .btn-filter:hover { background:var(--ml-blue-light); }
 .recent-table { width:100%; border-collapse:collapse; font-size:12px; }
-.recent-table th {
-  padding:8px 10px; text-align:left;
-  font-family:var(--mono); font-size:9px; color:var(--muted);
-  letter-spacing:1px; text-transform:uppercase;
-  border-bottom:2px solid var(--border); background:var(--bg);
-}
+.recent-table th { padding:8px 10px; text-align:left; font-family:var(--mono); font-size:9px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; border-bottom:2px solid var(--border); background:var(--bg); }
 .recent-table td { padding:10px; border-bottom:1px solid var(--border); }
 .recent-table tr:last-child td { border-bottom:none; }
 .td-id { font-family:var(--mono); color:var(--ml-blue); font-weight:700; font-size:11px; }
 .td-conf { font-family:var(--mono); font-size:11px; font-weight:700; }
 .td-conf.hi { color:var(--ml-green); }
 .td-conf.mid { color:var(--ml-orange); }
-.td-conf.lo { color:var(--ml-red); }play:none; align-items:flex-start; gap:12px;
-  padding:12px 16px; background:#fffbea;
-  border-bottom:2px solid var(--ml-yellow);
-  flex-shrink:0;
-}
+.td-conf.lo { color:var(--ml-red); }
+.processing { display:none; position:fixed; inset:0; z-index:300; background:rgba(29,34,95,.92); backdrop-filter:blur(8px); flex-direction:column; align-items:center; justify-content:center; gap:20px; }
+.processing.show { display:flex; }
+.proc-spinner { width:56px; height:56px; border:3px solid rgba(255,255,255,.15); border-top-color:var(--ml-yellow); border-radius:50%; animation:spin .7s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.proc-label { font-family:var(--mono); font-size:11px; color:var(--ml-yellow); letter-spacing:2px; text-transform:uppercase; }
+.proc-steps { display:flex; flex-direction:column; align-items:center; gap:6px; }
+.step { font-size:13px; color:rgba(255,255,255,.4); opacity:0; transition:all .4s; }
+.step.visible { opacity:1; color:#fff; }
+.step.done { color:var(--ml-yellow); }
+.flash { display:none; position:fixed; inset:0; z-index:400; background:#fff; pointer-events:none; }
+.flash.show { display:block; animation:flashAnim .3s ease; }
+@keyframes flashAnim { 0%{opacity:.8} 100%{opacity:0} }
+.modal-backdrop { display:none; position:fixed; inset:0; z-index:200; background:rgba(29,34,95,.5); backdrop-filter:blur(8px); align-items:flex-end; }
+.modal-backdrop.open { display:flex; }
+.modal { background:var(--surface); border-radius:24px 24px 0 0; width:100%; max-height:90vh; overflow-y:auto; padding:20px; animation:slideModalUp .28s ease; border-top:3px solid var(--ml-yellow); box-shadow:0 -8px 40px rgba(45,50,119,.2); }
+@keyframes slideModalUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+.modal-handle { width:36px; height:4px; background:var(--border); border-radius:2px; margin:0 auto 16px; }
+.modal-img { width:100%; border-radius:12px; margin-bottom:14px; max-height:180px; object-fit:cover; display:block; }
+.modal-fields { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+.mf { padding:11px 14px; border-radius:12px; background:#f8f9ff; border:1px solid var(--border); display:flex; gap:10px; align-items:flex-start; }
+.mf-ico { font-size:20px; }
+.mf-info { flex:1; }
+.mf-label { font-family:var(--mono); font-size:8px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:3px; }
+.mf-val { font-size:15px; font-weight:700; color:var(--text); }
+.mf-val.nd { color:var(--muted); font-style:italic; font-weight:400; font-size:13px; }
+.modal-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.mbtn { flex:1; min-width:calc(50% - 4px); padding:12px; border-radius:12px; border:none; font-family:var(--sans); font-size:13px; font-weight:800; cursor:pointer; transition:all .2s; }
+.mbtn-primary { background:var(--ml-blue); color:#fff; }
+.mbtn-green { background:rgba(0,166,80,.1); color:var(--ml-green); border:1px solid rgba(0,166,80,.25); }
+.mbtn-secondary { background:var(--bg); color:var(--text); border:1px solid var(--border); }
+.mbtn-danger { background:rgba(229,57,53,.08); color:var(--ml-red); border:1px solid rgba(229,57,53,.2); }
+.mbtn:hover { opacity:.85; }
+.setup-banner { display:none; align-items:flex-start; gap:12px; padding:12px 16px; background:#fffbea; border-bottom:2px solid var(--ml-yellow); flex-shrink:0; }
 .setup-banner.show { display:flex; }
 .setup-ico { font-size:20px; flex-shrink:0; margin-top:2px; }
 .setup-body { flex:1; }
@@ -230,68 +266,44 @@ t:100%; border-radius:5px; transition:width 1s cubic-bezier(.34,1.2,.64,1); }
 .setup-desc { font-size:11px; color:var(--muted); line-height:1.5; }
 .setup-desc a { color:var(--ml-blue); }
 .setup-inputs { display:flex; gap:8px; margin-top:8px; }
-.setup-input {
-  flex:1; padding:8px 12px; border:1px solid var(--border);
-  border-radius:8px; background:#fff; color:var(--text);
-  font-family:var(--mono); font-size:11px; outline:none;
-}
+.setup-input { flex:1; padding:8px 12px; border:1px solid var(--border); border-radius:8px; background:#fff; color:var(--text); font-family:var(--mono); font-size:11px; outline:none; }
 .setup-input:focus { border-color:var(--ml-blue); }
 .setup-save { padding:8px 14px; background:var(--ml-blue); color:#fff; border:none; border-radius:8px; font-weight:800; font-size:12px; cursor:pointer; white-space:nowrap; }
-
-/* Toast */
-.toast {
-  position:fixed; bottom:80px; left:50%;
-  transform:translateX(-50%) translateY(16px);
-  background:var(--text); color:#fff; padding:10px 18px;
-  border-radius:10px; font-size:13px; font-weight:700;
-  opacity:0; transition:all .3s; z-index:600; white-space:nowrap;
-  box-shadow:var(--shadow-lg);
-}
+.toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(16px); background:var(--text); color:#fff; padding:10px 18px; border-radius:10px; font-size:13px; font-weight:700; opacity:0; transition:all .3s; z-index:600; white-space:nowrap; box-shadow:var(--shadow-lg); }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 .toast.ok { background:var(--ml-green); }
 .toast.warn { background:var(--ml-orange); }
 .toast.err { background:var(--ml-red); }
-
-/* Scrollbar */
 ::-webkit-scrollbar { width:3px; }
 ::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
 </style>
 </head>
 <body>
-
 <div class="flash" id="flash"></div>
-
-<!-- PROCESSING -->
 <div class="processing" id="processing">
   <div class="proc-spinner"></div>
   <div class="proc-label">Analizando paquete</div>
   <div class="proc-steps">
-    <div class="step" id="s1">ð· Capturando imagen...</div>
-    <div class="step" id="s2">ð¤ Leyendo con IA...</div>
-    <div class="step" id="s3">â¬ Extrayendo origen...</div>
-    <div class="step" id="s4">ð Guardando en Sheets...</div>
-    <div class="step" id="s5">â Listo</div>
+    <div class="step" id="s1">📷 Capturando imagen...</div>
+    <div class="step" id="s2">🤖 Leyendo con IA...</div>
+    <div class="step" id="s3">⬛ Extrayendo origen...</div>
+    <div class="step" id="s4">📊 Guardando en Sheets...</div>
+    <div class="step" id="s5">✅ Listo</div>
   </div>
 </div>
-
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
-
-<!-- MODAL DETALLE -->
 <div class="modal-backdrop" id="modal">
   <div class="modal">
     <div class="modal-handle"></div>
     <div id="modalContent"></div>
   </div>
 </div>
-
-<!-- HEADER -->
 <header class="header">
   <div class="logo">
-    <div class="logo-badge">ð¦</div>
+    <div class="logo-badge">📦</div>
     <div class="logo-text">
       <div class="logo-name">MercadoLibre</div>
-      <div class="logo-sub">EscÃ¡ner de Paquetes</div>
+      <div class="logo-sub">Escáner de Paquetes</div>
     </div>
   </div>
   <div class="header-actions">
@@ -299,984 +311,359 @@ t:100%; border-radius:5px; transition:width 1s cubic-bezier(.34,1.2,.64,1); }
       <div class="sdot" id="sheetsDot"></div>
       <span id="sheetsLabel">Sheets</span>
     </div>
-    <label for="fileInput" style="width:36px;height:36px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;">ð¼ï¸</label>
+    <label for="fileInput" style="width:36px;height:36px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;">🖼️</label>
   </div>
 </header>
 <input type="file" id="fileInput" accept="image/*" onchange="handleUpload(event)">
-
-<!-- SETUP BANNER -->
 <div class="setup-banner" id="setupBanner">
-  <div class="setup-ico">â¡</div>
+  <div class="setup-ico">⚡</div>
   <div class="setup-body">
-    <div class="setup-title">Conecta Google Sheets para guardar automÃ¡ticamente</div>
-    <div class="setup-desc">
-      Pega la URL de tu Apps Script Web App.
-      <a href="#" onclick="showGuide();return false;">Â¿CÃ³mo obtenerla? â</a>
-    </div>
+    <div class="setup-title">Conecta Google Sheets para guardar automáticamente</div>
+    <div class="setup-desc">Pega la URL de tu Apps Script Web App. <a href="#" onclick="showGuide();return false;">¿Cómo obtenerla? →</a></div>
     <div class="setup-inputs">
       <input class="setup-input" id="scriptInput" placeholder="https://script.google.com/macros/s/.../exec" type="url">
       <button class="setup-save" onclick="saveScript()">Guardar</button>
     </div>
   </div>
 </div>
-div class="sync-row">
-          <div class="ring-wrap">
-            <svg class="ring-svg" width="100" height="100" viewBox="0 0 100 100">
-              <circle class="ring-track" cx="50" cy="50" r="40"/>
-              <circle class="ring-fill" cx="50" cy="50" r="40" id="ringFill"
-                stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
-            </svg>
-            <div class="ring-label">
-              <div class="ring-pct" id="ringPct">0%</div>
-              <div class="ring-sub">sync</div>
-            </div>
-          </div>
-          <div class="ring-info">
-            <div class="ring-item">
-              <div class="ring-dot" style="background:var(--ml-blue)"></div>
-              <div class="ring-item-label">Sincronizados</div>
-              <div class="ring-item-val" id="ri1">0</div>
-            </div>
-            <div class="ring-item">
-              <div class="ring-dot" style="background:var(--ml-orange)"></div>
-              <div class="ring-item-label">Pendientes</div>
-              <div class="ring-item-val" id="ri2">0</div>
-            </div>
-            <div class="ring-item">
-              <div class="ring-dot" style="background:var(--bg)"></div>
-              <div class="ring-item-label">Total</div>
-              <div class="ring-item-val" id="ri3">0</div>
-            </div>
+<div class="main">
+  <div class="screen active" id="screen-scanner">
+    <div class="camera-wrap" id="cameraWrap">
+      <video id="video" autoplay playsinline muted></video>
+      <div class="cam-overlay">
+        <div class="scan-frame">
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+        </div>
+        <div class="field-hints">
+          <div class="field-hints-inner">
+            <div class="hint origen">⬛ ORIGEN — cuadro negro ↖</div>
+            <div class="hint id">📦 ID / GUÍA del paquete</div>
+            <div class="hint fecha">📅 FECHA PROMESA de entrega</div>
           </div>
         </div>
+        <div class="scan-line"></div>
       </div>
-
-      <div class="section-title">Entregas</div>
-      <div class="chart-card">
-        <div class="chart-title">Estado de fecha promesa</div>
-        <div class="bar-chart" id="fechaChart"></div>
+    </div>
+    <div class="no-camera" id="noCam" style="display:none">
+      <div class="no-camera-icon">📷</div>
+      <h3>Cámara no disponible</h3>
+      <p>Permite el acceso a la cámara<br>o sube una imagen.</p>
+      <button class="btn-allow" onclick="initCam()">Permitir cámara</button>
+    </div>
+    <div class="cam-controls" id="camControls">
+      <div class="ctrl" onclick="toggleFlash()" id="flashBtn">🔦</div>
+      <button class="capture-btn" onclick="capture()">📸</button>
+      <div class="ctrl" onclick="switchCam()">🔄</div>
+    </div>
+    <div class="live-result" id="liveResult">
+      <div class="lr-header">
+        <div class="lr-header-left">
+          <span style="font-size:14px">📦</span>
+          <span class="lr-title">Datos detectados</span>
+        </div>
+        <div class="lr-sync" id="lrSync"></div>
+      </div>
+      <div class="lr-fields" id="lrFields"></div>
+      <div class="conf-row">
+        <span class="conf-label">CONFIANZA IA</span>
+        <div class="conf-track"><div class="conf-fill" id="confFill" style="width:0%"></div></div>
+        <span class="conf-pct" id="confPct">0%</span>
       </div>
     </div>
   </div>
-
-  <!-- REPORTES -->
-  <div class="screen" id="screen-reports">
+  <div class="screen" id="screen-history">
     <div class="screen-header">
-      <div class="screen-title">Reportes</div>
+      <div class="screen-title">Historial</div>
+      <div class="count-badge" id="histCount">0</div>
     </div>
+    <div class="filter-bar">
+      <button class="filter-chip active" onclick="filterHistory('all',this)">Todos</button>
+      <button class="filter-chip" onclick="filterHistory('ok',this)">✅ Sincronizados</button>
+      <button class="filter-chip" onclick="filterHistory('pending',this)">⏳ Pendientes</button>
+      <button class="filter-chip" onclick="filterHistory('today',this)">📅 Hoy</button>
+    </div>
+    <div class="pkg-list" id="pkgList"></div>
+  </div>
+  <div class="screen" id="screen-dashboard">
+    <div class="screen-header">
+      <div class="screen-title">Dashboard</div>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono)" id="dashDate"></div>
+    </div>
+    <div class="dash-scroll">
+      <div class="stat-grid">
+        <div class="stat-card featured">
+          <div class="stat-icon">📦</div>
+          <div class="stat-label">Total Escaneados</div>
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-sub" id="statTodayLabel">0 hoy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-label">En Sheets</div>
+          <div class="stat-value" id="statSynced" style="color:var(--ml-green)">0</div>
+          <div class="stat-sub">sincronizados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-label">Pendientes</div>
+          <div class="stat-value" id="statPending" style="color:var(--ml-orange)">0</div>
+          <div class="stat-sub">sin sincronizar</div>
+        </div>
+      </div>
+      <div class="section-title">Confianza IA</div>
+      <div class="chart-card"><div class="chart-title">Distribución por nivel</div><div class="bar-chart" id="confChart"></div></div>
+      <div class="section-title">Sincronización</div>
+      <div class="chart-card">
+        <div class="sync-row">
+          <div class="ring-wrap">
+            <svg class="ring-svg" width="100" height="100" viewBox="0 0 100 100">
+              <circle class="ring-track" cx="50" cy="50" r="40"/>
+              <circle class="ring-fill" cx="50" cy="50" r="40" id="ringFill" stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
+            </svg>
+            <div class="ring-label"><div class="ring-pct" id="ringPct">0%</div><div class="ring-sub">sync</div></div>
+          </div>
+          <div class="ring-info">
+            <div class="ring-item"><div class="ring-dot" style="background:var(--ml-blue)"></div><div class="ring-item-label">Sincronizados</div><div class="ring-item-val" id="ri1">0</div></div>
+            <div class="ring-item"><div class="ring-dot" style="background:var(--ml-orange)"></div><div class="ring-item-label">Pendientes</div><div class="ring-item-val" id="ri2">0</div></div>
+            <div class="ring-item"><div class="ring-dot" style="background:var(--bg)"></div><div class="ring-item-label">Total</div><div class="ring-item-val" id="ri3">0</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="section-title">Entregas</div>
+      <div class="chart-card"><div class="chart-title">Estado de fecha promesa</div><div class="bar-chart" id="fechaChart"></div></div>
+    </div>
+  </div>
+  <div class="screen" id="screen-reports">
+    <div class="screen-header"><div class="screen-title">Reportes</div></div>
     <div class="report-scroll">
       <div class="report-card">
-        <div class="report-card-header">
-          <div class="report-card-icon">ð¤</div>
-          <div>
-            <div class="report-card-title">Exportar datos</div>
-            <div class="report-card-sub">Descarga el historial completo</div>
-          </div>
-        </div>
+        <div class="report-card-header"><div class="report-card-icon">📤</div><div><div class="report-card-title">Exportar datos</div><div class="report-card-sub">Descarga el historial completo</div></div></div>
         <div class="report-card-body">
           <div class="export-btns">
-            <div class="export-btn" onclick="exportCSV()">
-              <div class="export-btn-icon">ð</div>
-              <div class="export-btn-text">
-                <div class="export-btn-title">CSV / Excel</div>
-                <div class="export-btn-sub">Compatible con Excel y Google Sheets</div>
-              </div>
-              <div class="export-btn-arrow">âº</div>
-            </div>
-            <div class="export-btn" onclick="exportJSON()">
-              <div class="export-btn-icon">ð</div>
-              <div class="export-btn-text">
-                <div class="export-btn-title">JSON</div>
-                <div class="export-btn-sub">Formato para sistemas y APIs</div>
-              </div>
-              <div class="export-btn-arrow">âº</div>
-            </div>
-            <div class="export-btn" onclick="openSheet()">
-              <div class="export-btn-icon">ð</div>
-              <div class="export-btn-text">
-                <div class="export-btn-title">Abrir Google Sheets</div>
-                <div class="export-btn-sub">Ver datos en tiempo real</div>
-              </div>
-              <div class="export-btn-arrow">âº</div>
-            </div>
+            <div class="export-btn" onclick="exportCSV()"><div class="export-btn-icon">📊</div><div class="export-btn-text"><div class="export-btn-title">CSV / Excel</div><div class="export-btn-sub">Compatible con Excel y Google Sheets</div></div><div class="export-btn-arrow">›</div></div>
+            <div class="export-btn" onclick="exportJSON()"><div class="export-btn-icon">📋</div><div class="export-btn-text"><div class="export-btn-title">JSON</div><div class="export-btn-sub">Formato para sistemas y APIs</div></div><div class="export-btn-arrow">›</div></div>
+            <div class="export-btn" onclick="openSheet()"><div class="export-btn-icon">📈</div><div class="export-btn-text"><div class="export-btn-title">Abrir Google Sheets</div><div class="export-btn-sub">Ver datos en tiempo real</div></div><div class="export-btn-arrow">›</div></div>
           </div>
         </div>
       </div>
-
       <div class="report-card">
-        <div class="report-card-header">
-          <div class="report-card-icon">ð</div>
-          <div>
-            <div class="report-card-title">Filtrar registros</div>
-            <div class="report-card-sub">Busca por campos especÃ­ficos</div>
-          </div>
-        </div>
+        <div class="report-card-header"><div class="report-card-icon">🔍</div><div><div class="report-card-title">Filtrar registros</div><div class="report-card-sub">Busca por campos específicos</div></div></div>
         <div class="report-card-body">
           <div class="filter-section">
-            <div class="filter-row">
-              <label class="filter-label">Buscar por ID / GuÃ­a</label>
-              <input class="filter-input" id="searchInput" placeholder="Ej: MP1234567890" oninput="searchScans()">
-            </div>
-            <div class="filter-row">
-              <label class="filter-label">Estado de sincronizaciÃ³n</label>
-              <select class="filter-select" id="filterStatus" onchange="searchScans()">
-                <option value="all">Todos</option>
-                <option value="synced">Sincronizados</option>
-                <option value="pending">Pendientes</option>
-              </select>
-            </div>
+            <div class="filter-row"><label class="filter-label">Buscar por ID / Guía</label><input class="filter-input" id="searchInput" placeholder="Ej: MP1234567890" oninput="searchScans()"></div>
+            <div class="filter-row"><label class="filter-label">Estado de sincronización</label><select class="filter-select" id="filterStatus" onchange="searchScans()"><option value="all">Todos</option><option value="synced">Sincronizados</option><option value="pending">Pendientes</option></select></div>
           </div>
         </div>
       </div>
-    banner.classList.remove('show');
-    setStatus('ok');
-  }
-}
-
-function saveScript() {
-  const val = document.getElementById('scriptInput').value.trim();
-  if (!val.startsWith('https://script.google.com/')) {
-    toast('â ï¸ URL invÃ¡lida â debe ser de script.google.com', 'warn'); return;
-  }
-  SCRIPT_URL = val;
-  localStorage.setItem('mlscanner_script', SCRIPT_URL);
-  checkSetup();
-  toast('â Webhook guardado â Sheets conectado', 'ok');
-  retrySyncPending();
-}
-
-// ââââââââââââââââââââââââââââââ
-// NAVIGATION
-// ââââââââââââââââââââââââââââââ
-function goTo(screen, el) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('screen-' + screen).classList.add('active');
-  el.classList.add('active');
-  if (screen === 'history') renderHistory();
-  if (screen === 'dashboard') renderDashboard();
-  if (screen === 'reports') renderReports();
-}
-
-// ââââââââââââââââââââââââââââââ
-// CAMERA
-// ââââââââââââââââââââââââââââââ
-async function initCam() {
-  const wrap = document.getElementById('cameraWrap');
-  const noCam = document.getElementById('noCam');
-  const ctrl  = document.getElementById('camControls');
-  try {
-    if (stream) stream.getTracks().forEach(t => t.stop());
-    stream = await navigator.mediaDevices.getUserMedia({
-      video:{ facingMode, width:{ideal:1920}, height:{ideal:1080} }, audio:false
-    });
-    document.getElementById('video').srcObject = stream;
-    wrap.style.display = 'block'; noCam.style.display = 'none'; ctrl.style.display = 'flex';
-  } catch(e) {
-    wrap.style.display = 'none'; noCam.style.display = 'flex'; ctrl.style.display = 'flex';
-  }
-}
-function switchCam() { facingMode = facingMode==='environment'?'user':'environment'; initCam(); }
-function toggleFlash() {
-  if (!stream) return;
-  flashOn = !flashOn;
-  try { stream.getVideoTracks()[0].applyConstraints({advanced:[{torch:flashOn}]}); } catch(e){}
-  document.getElementById('flashBtn').textContent = flashOn ? 'ð¡' : 'ð¦';
-  toast(flashOn ? 'ð¡ Flash ON' : 'ð¦ Flash OFF');
-}
-
-// ââââââââââââââââââââââââââââââ
-// CAPTURE
-// ââââââââââââââââââââââââââââââ
-function capture() {
-  const video = document.getElementById('video');
-  if (!video.srcObject) { toast('â Sin cÃ¡mara activa'); return; }
-  document.getElementById('flash').classList.add('show');
-  setTimeout(() => document.getElementById('flash').classList.remove('show'), 300);
-  const canvas = document.getElementById('canvas');
-  canvas.width  = video.videoWidth  || 1280;
-  canvas.height = video.videoHeight || 720;
-  canvas.getContext('2d').drawImage(video, 0, 0);
-  processImage(canvas.toDataURL('image/jpeg', 0.9));
-}
-function handleUpload(e) {
-  const file = e.target.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => processImage(ev.target.result);
-  reader.readAsDataURL(file); e.target.value = '';
-}
-
-// ââââââââââââââââââââââââââââââ
-// AI ANALYSIS
-// ââââââââââââââââââââââââââââââ
-async function processImage(imageData) {
-  showProc(); stepV('s1'); await delay(250); stepV('s2');
-  let parsed = null;
-  try {
-    const base64    = imageData.split(',')[1];
-    const mediaType = imageData.startsWith('data:image/png') ? 'image/png' : 'image/jpeg';
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system:`Eres un sistema especializado en leer etiquetas de paqueterÃ­a/logÃ­stica de MercadoLibre.
-
-INSTRUCCIÃN CRÃTICA PARA "origen":
-El origen se encuentra EXCLUSIVAMENTE en el CUADRO NEGRO (fondo negro con texto blanco/claro) ubicado en la PARTE SUPERIOR IZQUIERDA de la etiqueta. Lee Ãºnicamente el texto visible dentro de ese rectÃ¡ngulo oscuro. Si no existe ese cuadro negro en la esquina superior izquierda, devuelve null para origen. NO tomes el origen de otra parte.
-
-Extrae ÃNICAMENTE estos campos en JSON puro (sin markdown):
-{
-  "origen": "texto exacto del cuadro negro superior izquierdo, o null",
-  "id_paquete": "cÃ³digo de rastreo o nÃºmero de guÃ­a, o null",
-  "fecha_promesa": "fecha prometida de entrega en formato DD/MM/YYYY, o null",
-  "confianza": nÃºmero 0-100,
-  "notas": "observaciÃ³n breve o null"
-}
-Responde SOLO con el JSON.`,
-        messages:[{
-          role:'user',
-          content:[
-            {type:'image', source:{type:'base64', media_type:mediaType, data:base64}},
-            {type:'text',  text:'Extrae: 1) origen del cuadro negro â, 2) ID/guÃ­a del paquete, 3) fecha promesa.'}
-          ]
-        }]
-      })
-    });
-    stepD('s2'); stepV('s3');
-    const data = await res.json();
-    const raw  = data.content?.find(b=>b.type==='text')?.text || '{}';
-    parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
-  } catch(err) {
-    console.error(err);
-    parsed = {origen:null,id_paquete:null,fecha_promesa:null,confianza:0,notas:'Error al procesar'};
-  }
-  stepD('s3'); stepV('s4');
-  const scan = {
-    id:          Date.now(),
-    image:       imageData,
-    origen:      parsed.origen      || null,
-    id_paquete:  parsed.id_paquete  || null,
-    fecha_promesa: parsed.fecha_promesa || null,
-    confianza:   parsed.confianza   || 0,
-    notas:       parsed.notas       || null,
-    date:        new Date().toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'}),
-    synced:      false
-  };
-  const ok = await pushToSheets(scan);
-  scan.synced = ok;
-  stepD('s4'); stepV('s5');
-  await delay(300);
-  hideProc();
-  scans.unshift(scan);
-  saveScans();
-  showLiveResult(scan, ok);
-  toast(ok ? 'ð Guardado en Sheets' : 'ð¾ Guardado localmente', ok?'ok':'warn');
-}
-
-// ââââââââââââââââââââââââââââââ
-// SHEETS
-// ââââââââââââââââââââââââââââââ
-async function pushToSheets(scan) {
-  if (!SCRIPT_URL) return false;
-  setStatus('syncing');
-  try {
-    await fetch(SCRIPT_URL, {
-      method:'POST', mode:'no-cors',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        fecha:         scan.date,
-        origen:        scan.origen      || 'N/D',
-        id_paquete:    scan.id_paquete  || 'N/D',
-        fecha_promesa: scan.fecha_promesa || 'N/D',
-        confianza:     scan.confianza,
-        notas:         scan.notas       || ''
-      })
-    });
-    setStatus('ok'); return true;
-  } catch(e) {
-    console.error(e); setStatus('error'); return false;
-  }
-}
-async function retrySyncPending() {
-  const pending = scans.filter(s=>!s.synced);
-  if (!pending.length) return;
-  toast(`ð Sincronizando ${pending.length} registro(s)...`, 'warn');
-  let n = 0;
-  for (const s of pending) {
-    const ok = await pushToSheets(s);
-    if (ok) { s.synced=true; n++; }
-    await delay(400);
-  }
-  saveScans();
-  renderHistory(); renderDashboard();
-  if (n) toast(`â ${n} registro(s) sincronizado(s)`, 'ok');
-}
-function openSheet() { window.open(SHEET_URL,'_blank'); }
-ById('sheetsDot');
-  const lbl   = document.getElementById('sheetsLabel');
-  badge.className = 'sheets-badge';
-  dot.className = 'sdot';
-  const map = {
-    ok:              ['ok',    '',      'Sheets â'],
-    syncing:         ['syncing','pulse','Syncâ¦'],
-    error:           ['error', '',      'Error â'],
-    'not-configured':['not-configured','','Sin config']
-  };
-  const [bc,dc,lb] = map[s]||map.ok;
-  if (bc) badge.classList.add(bc);
-  if (dc) dot.classList.add(dc);
-  lbl.textContent = lb;
-}
-
-// ââââââââââââââââââââââââââââââ
-// LIVE RESULT
-// ââââââââââââââââââââââââââââââ
-function showLiveResult(scan, synced) {
-  document.getElementById('lrSync').className = 'lr-sync ' + (synced?'ok':'local');
-  document.getElementById('lrSync').textContent = synced ? 'â SHEETS' : 'â³ LOCAL';
-  document.getElementById('lrFields').innerHTML =
-    fRow('â¬','ORIGEN (cuadro negro â)', scan.origen) +
-    fRow('ð¦','ID / GUÃA PAQUETE',       scan.id_paquete) +
-    fRow('ð','FECHA PROMESA',           scan.fecha_promesa) +
-    (scan.notas ? `<div style="padding:7px 10px;background:rgba(255,107,0,.08);border:1px solid rgba(255,107,0,.2);border-radius:8px;font-size:11px;color:var(--ml-orange)">ð¡ ${scan.notas}</div>` : '');
-  const pct  = scan.confianza;
-  const fill = document.getElementById('confFill');
-  fill.style.background = pct>=70?'var(--ml-green)':pct>=40?'var(--ml-orange)':'var(--ml-red)';
-  fill.style.width = '0%';
-  setTimeout(() => {
-    fill.style.width = pct + '%';
-    document.getElementById('confPct').textContent = pct + '%';
-  }, 80);
-  document.getElementById('liveResult').classList.add('show');
-}
-function fRow(ico, label, val) {
-  const found = val !== null && val !== undefined;
-  return `<div class="lr-field">
-    <div class="lr-ico">${ico}</div>
-    <div class="lr-info">
-      <div class="lr-label">${label}</div>
-      <div class="lr-val ${found?'':'nd'}">${found?val:'No detectado'}</div>
+      <div class="report-card">
+        <div class="report-card-header"><div class="report-card-icon">🕐</div><div><div class="report-card-title">Últimos registros</div><div class="report-card-sub" id="reportSubtitle">Cargando...</div></div></div>
+        <div class="report-card-body" style="padding:0">
+          <table class="recent-table"><thead><tr><th>ID / Guía</th><th>Origen</th><th>F. Promesa</th><th>IA%</th></tr></thead><tbody id="reportBody"></tbody></table>
+        </div>
+      </div>
+      <div style="padding:4px 0"><button onclick="clearAll()" style="width:100%;padding:13px;border:1px solid rgba(229,57,53,.3);background:rgba(229,57,53,.06);color:var(--ml-red);border-radius:12px;font-family:var(--sans);font-size:14px;font-weight:800;cursor:pointer;">🗑️ Limpiar todo el historial local</button></div>
     </div>
-    ${found?`<button class="lr-copy" onclick="copyVal('${String(val).replace(/'/g,"\\'")}')">ð</button>`:''}
-  </div>`;
-}
-function copyVal(v) { navigator.clipboard.writeText(v).then(()=>toast('ð Copiado')); }
-rd();
-  toast(ok?'â Sincronizado en Sheets':'â No se pudo enviar', ok?'ok':'err');
-}
-function copyAll(id) {
-  const s = scans.find(x=>x.id===id); if(!s) return;
-  navigator.clipboard.writeText(`ORIGEN: ${s.origen||'N/D'}\nID PAQUETE: ${s.id_paquete||'N/D'}\nFECHA PROMESA: ${s.fecha_promesa||'N/D'}`)
-    .then(()=>toast('ð Datos copiados'));
-}
-function deleteScan(id) {
-  scans = scans.filter(s=>s.id!==id); saveScans();
-  renderHistory(); renderDashboard(); renderReports(); closeModal();
-  toast('ðï¸ Eliminado');
-}
-
-// ââââââââââââââââââââââââââââââ
-// DASHBOARD
-// ââââââââââââââââââââââââââââââ
-function renderDashboard() {
-  const total   = scans.length;
-  const synced  = scans.filter(s=>s.synced).length;
-  const pending = total - synced;
-  const today   = new Date(); today.setHours(0,0,0,0);
-  const todayN  = scans.filter(s=>new Date(s.id)>=today).length;
-  document.getElementById('statTotal').textContent   = total;
-  document.getElementById('statSynced').textContent  = synced;
-  document.getElementById('statPending').textContent = pending;
-  document.getElementById('statTodayLabel').textContent = `${todayN} hoy`;
-  // Confidence chart
-  const hi  = scans.filter(s=>s.confianza>=70).length;
-  const mid = scans.filter(s=>s.confianza>=40&&s.confianza<70).length;
-  const lo  = scans.filter(s=>s.confianza<40).length;
-  const maxC = Math.max(hi,mid,lo,1);
-  document.getElementById('confChart').innerHTML = [
-    {l:'Alta â¥70%',v:hi,  c:'var(--ml-green)'},
-    {l:'Media 40-69%',v:mid,c:'var(--ml-orange)'},
-    {l:'Baja <40%', v:lo, c:'var(--ml-red)'}
-  ].map(({l,v,c})=>`<div class="bar-row">
-    <div class="bar-label">${l}</div>
-    <div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxC*100)}%;background:${c}"></div></div>
-    <div class="bar-val">${v}</div>
-  </div>`).join('');
-  // Ring
-  const pct = total ? Math.round(synced/total*100) : 0;
-  const circumference = 251.2;
-  const offset = circumference - (pct/100*circumference);
-  document.getElementById('ringPct').textContent = pct + '%';
-  setTimeout(()=>{ document.getElementById('ringFill').style.strokeDashoffset = offset; },100);
-  document.getElementById('ri1').textContent = synced;
-  document.getElementById('ri2').textContent = pending;
-  document.getElementById('ri3').textContent = total;
-  // Fechas
-  const onTime  = scans.filter(s=>fechaClass(s.fecha_promesa)==='fb-ok').length;
-  const urgent  = scans.filter(s=>fechaClass(s.fecha_promesa)==='fb-urgent').length;
-  const late    = scans.filter(s=>fechaClass(s.fecha_promesa)==='fb-late').length;
-  const noDate  = scans.filter(s=>!s.fecha_promesa).length;
-  const maxF = Math.max(onTime,urgent,late,noDate,1);
-  document.getElementById('fechaChart').innerHTML = [
-    {l:'A tiempo', v:onTime, c:'var(--ml-green)'},
-    {l:'Urgente',  v:urgent, c:'var(--ml-orange)'},
-    {l:'Tarde',    v:late,   c:'var(--ml-red)'},
-    {l:'Sin fecha',v:noDate, c:'var(--muted)'}
-  ].map(({l,v,c})=>`<div class="bar-row">
-    <div class="bar-label">${l}</div>
-    <div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxF*100)}%;background:${c}"></div></div>
-    <div class="bar-val">${v}</div>
-  </div>`).join('');
-}
-
-// ââââââââââââââââââââââââââââââ
-// REPORTS
-// ââââââââââââââââââââââââââââââ
-function renderReports(filtered) {
-  const data = filtered || scans;
-  document.getElementById('reportSubtitle').textContent = `${data.length} registro(s)`;
-  const tbody = document.getElementById('reportBody');
-  if (!data.length) {
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Sin registros</td></tr>`;
-    return;
-  }
-  tbody.innerHTML = data.slice(0,20).map(s=>{
-    const cc = s.confianza>=70?'hi':s.confianza>=40?'mid':'lo';
-    const fc = fechaClass(s.fecha_promesa);
-    return `<tr>
-      <td class="td-id">${(s.id_paquete||'â').substring(0,16)}</td>
-      <td style="font-size:12px;color:var(--text-2)">$x(s.origen||'â').substring(0,10)}</td>
-      <td><span class="fecha-badge ${fc}" style="font-size:10px">${s.fecha_promesa||'â'}</span></td>
-      <td class="td-conf ${cc}">${s.confianza}%</td>
-    </tr>`;
-  }).join('');
-}
-function searchScans() {
-  const q      = document.getElementById('searchInput').value.toLowerCase();
-  const status = document.getElementById('filterStatus').value;
-  let res = scans;
-  if (q) res = res.filter(s=>(s.id_paquete||'').toLowerCase().includes(q)||(s.origen||'').toLowerCase().includes(q));
-  if (status==='synced')  res = res.filter(s=>s.synced);
-  if (status==='pending') res = res.filter(s=>!s.synced);
-  renderReports(res);
-}
-function exportCSV() {
-  if (!scans.length) { toast('Sin datos para exportar', 'warn'); return; }
-  const header = 'Fecha,Origen,ID/GuÃ­a,Fecha Promesa,Confianza IA,Notas,Sincronizado\n';
-  const rows = scans.map(s=>[s.date,s.origen||'',s.id_paquete||'',s.fecha_promesa||'',s.confianza,s.notas||'',s.synced?'SÃ­':'No'].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob = new Blob(['\ufeff'+header+rows],{type:'text/csv;charset=utf-8'});
-  const url  = URL.createObjectURL(blob);
-  const a    = Object.assign(document.createElement('a'),{href:url,download:`ML-Scanner-${new Date().toISOString().split('T')[0]}.csv`});
-  a.click(); URL.revokeObjectURL(url);
-  toast('ð CSV descargado', 'ok');
-}
-function exportJSON() {
-  if (!scans.length) { toast('Sin datos para exportar', 'warn'); return; }
-  const data = scans.map(({id,date,origen,id_paquete,fecha_promesa,confianza,notas,synced})=>({id,date,origen,id_paquete,fecha_promesa,confianza,notas,synced}));
-  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url  = URL.createObjectURL(blob);
-  const a    = Object.assign(document.createElement('a'),{href:url,download:`ML-Scanner-${new Date().toISOString().split('T')[0]}.json`});
-  a.click(); URL.revokeObjectURL(url);
-  toast('ð JSON descargado', 'ok');
-}
-function clearAll() {
-  if (!confirm('Â¿Eliminar todo el historial local? Esta acciÃ³n no se puede deshacer.')) return;
-  scans = []; saveScans();
-  renderHistory(); renderDashboard(); renderReports();
-  document.getElementById('liveResult').classList.remove('show');
-  toast('ðï¸ Historial limpiado');
-}
-
-// ââââââââââââââââââââââââââââââ
-// UTILS
-// ââââââââââââââââââââââââââââââ
-function fechaClass(f) {
-  if (!f) return 'fb-nd';
-  const p = f.split('/'); if(p.length<3) return 'fb-nd';
-  const d   = new Date(`${p[2]}-${p[1]}-${p[0]}`);
-  const now = new Date(); now.setHours(0,0,0,0);
-  const diff = Math.ceil((d-now)/86400000);
-  return diff<0?'fb-late':diff<=2?'fb-urgent':'fb-ok';
-}
-function saveScans() { localStorage.setItem('mlscanner_v1', JSON.stringify(scans)); }
-function showProc() {
-  document.getElementById('processing').classList.add('show');
-  ['s1','s2','s3','s4','s5'].forEach(id=>{ document.getElementById(id).className='step'; });
-}
-function hideProc() { document.getElementById('processing').classList.remove('show'); }
-function stepV(id) { document.getElementById(id).classList.add('visible'); }
-function stepD(id) { document.getElementById(id).classList.add('done'); }
-const delay = ms => new Promise(r=>setTimeout(r,ms));
-function toast(msg, type='') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast show' + (type?' '+type:'');
-  setTimeout(()=>t.classList.remove('show'), 2800);
-}
-function showGuide() { toast('Extensiones â Apps Script â Implementar â Web App', 'warn'); }
-</script>
-</body>
-</html>
-class="nav-btn active" onclick="goTo('scanner',this)" id="nav-scanner">
-    <div class="nav-icon">ð·</div>
-    <div class="nav-label">EscÃ¡ner</div>
-  </button>
-  <button class="nav-btn" onclick="goTo('history',this)" id="nav-history">
-    <div class="nav-icon">ð¦</div>
-    <div class="nav-label">Historial</div>
-  </button>
-  <button class="nav-btn" onclick="goTo('dashboard',this)" id="nav-dashboard">
-    <div class="nav-icon">ð</div>
-    <div class="nav-label">Dashboard</div>
-  </button>
-  <button class="nav-btn" onclick="goTo('reports',this)" id="nav-reports">
-    <div class="nav-icon">ð</div>
-    <div class="nav-label">Reportes</div>
-  </button>
+  </div>
+</div>
+<nav class="nav">
+  <button class="nav-btn active" onclick="goTo('scanner',this)" id="nav-scanner"><div class="nav-icon">📷</div><div class="nav-label">Escáner</div></button>
+  <button class="nav-btn" onclick="goTo('history',this)" id="nav-history"><div class="nav-icon">📦</div><div class="nav-label">Historial</div></button>
+  <button class="nav-btn" onclick="goTo('dashboard',this)" id="nav-dashboard"><div class="nav-icon">📊</div><div class="nav-label">Dashboard</div></button>
+  <button class="nav-btn" onclick="goTo('reports',this)" id="nav-reports"><div class="nav-icon">📋</div><div class="nav-label">Reportes</div></button>
 </nav>
-
 <canvas id="canvas"></canvas>
-
-<script>       origen:        scan.origen      || 'N/D',
-        id_paquete:    scan.id_paquete  || 'N/D',
-        fecha_promesa: scan.fecha_promesa || 'N/D',
-        confianza:     scan.confianza,
-        notas:         scan.notas       || ''
+<script>
+const SHEET_ID='1SDbdSNrG4vpdF93K49baJM1BHfHI9j7FKUUPQhvpfpY';
+const SHEET_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
+let stream=null,facingMode='environment',flashOn=false;
+let scans=JSON.parse(localStorage.getItem('mlscanner_v1')||'[]');
+let SCRIPT_URL=localStorage.getItem('mlscanner_script')||'';
+let currentFilter='all';
+window.addEventListener('DOMContentLoaded',()=>{
+  initCam();checkSetup();renderHistory();renderDashboard();renderReports();
+  document.getElementById('dashDate').textContent=new Date().toLocaleDateString('es-MX',{weekday:'short',day:'numeric',month:'short'});
+  document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+});
+function checkSetup(){
+  const b=document.getElementById('setupBanner');
+  if(!SCRIPT_URL){b.classList.add('show');setStatus('not-configured');}else{b.classList.remove('show');setStatus('ok');}
+}
+function saveScript(){
+  const v=document.getElementById('scriptInput').value.trim();
+  if(!v.startsWith('https://script.google.com/')){toast('⚠️ URL inválida','warn');return;}
+  SCRIPT_URL=v;localStorage.setItem('mlscanner_script',SCRIPT_URL);checkSetup();
+  toast('✅ Webhook guardado','ok');retrySyncPending();
+}
+function goTo(s,el){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById('screen-'+s).classList.add('active');el.classList.add('active');
+  if(s==='history')renderHistory();if(s==='dashboard')renderDashboard();if(s==='reports')renderReports();
+}
+async function initCam(){
+  const w=document.getElementById('cameraWrap'),n=document.getElementById('noCam'),c=document.getElementById('camControls');
+  try{
+    if(stream)stream.getTracks().forEach(t=>t.stop());
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode,width:{ideal:1920},height:{ideal:1080}},audio:false});
+    document.getElementById('video').srcObject=stream;
+    w.style.display='block';n.style.display='none';c.style.display='flex';
+  }catch(e){w.style.display='none';n.style.display='flex';c.style.display='flex';}
+}
+function switchCam(){facingMode=facingMode==='environment'?'user':'environment';initCam();}
+function toggleFlash(){
+  if(!stream)return;flashOn=!flashOn;
+  try{stream.getVideoTracks()[0].applyConstraints({advanced:[{torch:flashOn}]});}catch(e){}
+  document.getElementById('flashBtn').textContent=flashOn?'💡':'🔦';
+  toast(flashOn?'💡 Flash ON':'🔦 Flash OFF');
+}
+function capture(){
+  const v=document.getElementById('video');
+  if(!v.srcObject){toast('❌ Sin cámara activa');return;}
+  document.getElementById('flash').classList.add('show');
+  setTimeout(()=>document.getElementById('flash').classList.remove('show'),300);
+  const c=document.getElementById('canvas');
+  c.width=v.videoWidth||1280;c.height=v.videoHeight||720;
+  c.getContext('2d').drawImage(v,0,0);
+  processImage(c.toDataURL('image/jpeg',0.9));
+}
+function handleUpload(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>processImage(ev.target.result);
+  r.readAsDataURL(f);e.target.value='';
+}
+async function processImage(imageData){
+  showProc();stepV('s1');await delay(250);stepV('s2');
+  let parsed=null;
+  try{
+    const base64=imageData.split(',')[1];
+    const mediaType=imageData.startsWith('data:image/png')?'image/png':'image/jpeg';
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:1000,
+        system:`Eres un sistema especializado en leer etiquetas de paquetería/logística de MercadoLibre.\n\nINSTRUCCIÓN CRÍTICA PARA "origen":\nEl origen se encuentra EXCLUSIVAMENTE en el CUADRO NEGRO (fondo negro con texto blanco/claro) ubicado en la PARTE SUPERIOR IZQUIERDA de la etiqueta. Lee únicamente el texto visible dentro de ese rectángulo oscuro. Si no existe ese cuadro negro en la esquina superior izquierda, devuelve null para origen. NO tomes el origen de otra parte.\n\nExtrae ÚNICAMENTE estos campos en JSON puro (sin markdown):\n{\n  "origen": "texto exacto del cuadro negro superior izquierdo, o null",\n  "id_paquete": "código de rastreo o número de guía, o null",\n  "fecha_promesa": "fecha prometida de entrega en formato DD/MM/YYYY, o null",\n  "confianza": número 0-100,\n  "notas": "observación breve o null"\n}\nResponde SOLO con el JSON.`,
+        messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:mediaType,data:base64}},{type:'text',text:'Extrae: 1) origen del cuadro negro ↖, 2) ID/guía del paquete, 3) fecha promesa.'}]}]
       })
     });
-    setStatus('ok'); return true;
-  } catch(e) {
-    console.error(e); setStatus('error'); return false;
+    stepD('s2');stepV('s3');
+    const data=await res.json();
+    const raw=data.content?.find(b=>b.type==='text')?.text||'{}';
+    parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+  }catch(err){
+    console.error(err);
+    parsed={origen:null,id_paquete:null,fecha_promesa:null,confianza:0,notas:'Error al procesar'};
   }
+  stepD('s3');stepV('s4');
+  const scan={id:Date.now(),image:imageData,origen:parsed.origen||null,id_paquete:parsed.id_paquete||null,fecha_promesa:parsed.fecha_promesa||null,confianza:parsed.confianza||0,notas:parsed.notas||null,date:new Date().toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'}),synced:false};
+  const ok=await pushToSheets(scan);scan.synced=ok;
+  stepD('s4');stepV('s5');await delay(300);hideProc();
+  scans.unshift(scan);saveScans();showLiveResult(scan,ok);
+  toast(ok?'📊 Guardado en Sheets':'💾 Guardado localmente',ok?'ok':'warn');
 }
-async function retrySyncPending() {
-  const pending = scans.filter(s=>!s.synced);
-  if (!pending.length) return;
-  toast(`ð Sincronizando ${pending.length} registro(s)...`, 'warn');
-  let n = 0;
-  for (const s of pending) {
-    const ok = await pushToSheets(s);
-    if (ok) { s.synced=true; n++; }
-    await delay(400);
-  }
-  saveScans();
-  renderHistory(); renderDashboard();
-  if (n) toast(`â ${n} registro(s) sincronizado(s)`, 'ok');
+async function pushToSheets(scan){
+  if(!SCRIPT_URL)return false;setStatus('syncing');
+  try{
+    await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({fecha:scan.date,origen:scan.origen||'N/D',id_paquete:scan.id_paquete||'N/D',fecha_promesa:scan.fecha_promesa||'N/D',confianza:scan.confianza,notas:scan.notas||''})});
+    setStatus('ok');return true;
+  }catch(e){console.error(e);setStatus('error');return false;}
 }
-function openSheet() { window.open(SHEET_URL,'_blank'); }
-
-// ââââââââââââââââââââââââââââââ
-// SHEETS STATUS
-// ââââââââââââââââââââââââââââââ
-function setStatus(s) {
-  const badge = document.getElementById('sheetsBadge');
-  const dot   = document.getElementById('sheetsDot');
-  const lbl   = document.getElementById('sheetsLabel');
-  badge.className = 'sheets-badge';
-  dot.className = 'sdot';
-  const map = {
-    ok:              ['ok',    '',      'Sheets â'],
-    syncing:         ['syncing','pulse','Syncâ¦'],
-    error:           ['error', '',      'Error â'],
-    'not-configured':['not-configured','','Sin config']
-  };
-  const [bc,dc,lb] = map[s]||map.ok;
-  if (bc) badge.classList.add(bc);
-  if (dc) dot.classList.add(dc);
-  lbl.textContent = lb;
+async function retrySyncPending(){
+  const p=scans.filter(s=>!s.synced);if(!p.length)return;
+  toast(`🔄 Sincronizando ${p.length} registro(s)...`,'warn');
+  let n=0;for(const s of p){const ok=await pushToSheets(s);if(ok){s.synced=true;n++;}await delay(400);}
+  saveScans();renderHistory();renderDashboard();
+  if(n)toast(`✅ ${n} registro(s) sincronizado(s)`,'ok');
 }
-
-// ââââââââââââââââââââââââââââââ
-// LIVE RESULT
-// ââââââââââââââââââââââââââââââ
-function showLiveResult(scan, synced) {
-  document.getElementById('lrSync').className = 'lr-sync ' + (synced?'ok':'local');
-  document.getElementById('lrSync').textContent = synced ? 'â SHEETS' : 'â³ LOCAL';
-  document.getElementById('lrFields').innerHTML =
-    fRow('â¬','ORIGEN (cuadro negro â)', scan.origen) +
-    fRow('ð¦','ID / GUÃA PAQUETE',       scan.id_paquete) +
-    fRow('ð','FECHA PROMESA',           scan.fecha_promesa) +
-    (scan.notas ? `<div style="padding:7px 10px;background:rgba(255,107,0,.08);border:1px solid rgba(255,107,0,.2);border-radius:8px;font-size:11px;color:var(--ml-orange)">ð¡ ${scan.notas}</div>` : '');
-  const pct  = scan.confianza;
-  const fill = document.getElementById('confFill');
-  fill.style.background = pct>=70?'var(--ml-green)':pct>=40?'var(--ml-orange)':'var(--ml-red)';
-  fill.style.width = '0%';
-  setTimeout(() => {
-    fill.style.width = pct + '%';
-    document.getElementById('confPct').textContent = pct + '%';
-  }, 80);
+function openSheet(){window.open(SHEET_URL,'_blank');}
+function setStatus(s){
+  const b=document.getElementById('sheetsBadge'),d=document.getElementById('sheetsDot'),l=document.getElementById('sheetsLabel');
+  b.className='sheets-badge';d.className='sdot';
+  const m={ok:['ok','','Sheets ✓'],syncing:['syncing','pulse','Sync…'],error:['error','','Error ✗'],'not-configured':['not-configured','','Sin config']};
+  const[bc,dc,lb]=m[s]||m.ok;
+  if(bc)b.classList.add(bc);if(dc)d.classList.add(dc);l.textContent=lb;
+}
+function showLiveResult(scan,synced){
+  document.getElementById('lrSync').className='lr-sync '+(synced?'ok':'local');
+  document.getElementById('lrSync').textContent=synced?'✓ SHEETS':'⏳ LOCAL';
+  document.getElementById('lrFields').innerHTML=fRow('⬛','ORIGEN (cuadro negro ↖)',scan.origen)+fRow('📦','ID / GUÍA PAQUETE',scan.id_paquete)+fRow('📅','FECHA PROMESA',scan.fecha_promesa)+(scan.notas?`<div style="padding:7px 10px;background:rgba(255,107,0,.08);border:1px solid rgba(255,107,0,.2);border-radius:8px;font-size:11px;color:var(--ml-orange)">💡 ${scan.notas}</div>`:'');
+  const pct=scan.confianza,fill=document.getElementById('confFill');
+  fill.style.background=pct>=70?'var(--ml-green)':pct>=40?'var(--ml-orange)':'var(--ml-red)';
+  fill.style.width='0%';
+  setTimeout(()=>{fill.style.width=pct+'%';document.getElementById('confPct').textContent=pct+'%';},80);
   document.getElementById('liveResult').classList.add('show');
 }
-function fRow(ico, label, val) {
-  const found = val !== null && val !== undefined;
-  return `<div class="lr-field">
-    <div class="lr-ico">${ico}</div>
-    <div class="lr-info">
-      <div class="lr-label">${label}</div>
-      <div class="lr-val ${found?'':'nd'}">${found?val:'No detectado'}</div>
-    </div>
-    ${found?`<button class="lr-copy" onclick="copyVal('${String(val).replace(/'/g,"\\'")}')">ð</button>`:''}
-  </div>`;
+function fRow(ico,label,val){
+  const found=val!==null&&val!==undefined;
+  return `<div class="lr-field"><div class="lr-ico">${ico}</div><div class="lr-info"><div class="lr-label">${label}</div><div class="lr-val ${found?'':'nd'}">${found?val:'No detectado'}</div></div>${found?`<button class="lr-copy" onclick="copyVal('${String(val).replace(/'/g,"\\'")}')">\ud83d\udccb</button>`:''}</div>`;
 }
-function copyVal(v) { navigator.clipboard.writeText(v).then(()=>toast('ð Copiado')); }
-
-// ââââââââââââââââââââââââââââââ
-// HISTORY
-// ââââââââââââââââââââââââââââââ
-function renderHistory() {
-  const list = document.getElementById('pkgList');
-  document.getElementById('histCount').textContent = scans.length;
-  let filtered = filterScans(scans, currentFilter);
-  if (!filtered.length) {
-    list.innerHTML = `<div class="empty-state">
-      <span class="empty-icon">ð¦</span>
-      <div class="empty-title">Sin registros</div>
-      <div class="empty-text">Los paquetes escaneados<br>aparecerÃ¡n aquÃ­.</div>
-    </div>`; return;
-  }
-  list.innerHTML = filtered.map(s => {
-    const fc = fechaClass(s.fecha_promesa);
-    const cc = s.confianza>=70?'var(--ml-green)':s.confianza>=40?'var(--ml-orange)':'var(--ml-red)';
-    return `<div class="pkg-card" onclick="openModal(${s.id})">
-      <div class="pkg-card-top">
-        <img class="pkg-thumb" src="${s.image}" onerror="this.style.display='none';this.nextSibling.style.display='flex'" alt="">
-        <div class="pkg-thumb-ph" style="display:none">ð¦</div>
-        <div class="pkg-info">
-          <div class="pkg-id">${s.id_paquete||'ID no detectado'}</div>
-          <div class="pkg-date">${s.date} Â· <span style="color:${cc};font-family:var(--mono);font-size:10px">${s.confianza}%</span></div>
-          <div class="pkg-synced ${s.synced?'ok':'pending'}">${s.synced?'â En Sheets':'â³ Pendiente de sync'}</div>
-        </div>
-      </div>
-      <div class="pkg-card-bottom">
-        <div>
-          <div class="pkg-field-label">â¬ Origen</div>
-          <div class="pkg-field-val ${s.origen?'ok':'nd'}">${s.origen||'N/D'}</div>
-        </div>
-        <div>
-          <div class="pkg-field-label">ð Fecha Promesa</div>
-          <div class="pkg-field-val"><span class="fecha-badge ${fc}">${s.fecha_promesa||'N/D'}</span></div>
-        </div>
-      </div>
-    </div>`;
+function copyVal(v){navigator.clipboard.writeText(v).then(()=>toast('📋 Copiado'));}
+function renderHistory(){
+  const list=document.getElementById('pkgList');
+  document.getElementById('histCount').textContent=scans.length;
+  let f=filterScans(scans,currentFilter);
+  if(!f.length){list.innerHTML=`<div class="empty-state"><span class="empty-icon">📦</span><div class="empty-title">Sin registros</div><div class="empty-text">Los paquetes escaneados<br>aparecerán aquí.</div></div>`;return;}
+  list.innerHTML=f.map(s=>{
+    const fc=fechaClass(s.fecha_promesa),cc=s.confianza>=70?'var(--ml-green)':s.confianza>=40?'var(--ml-orange)':'var(--ml-red)';
+    return `<div class="pkg-card" onclick="openModal(${s.id})"><div class="pkg-card-top"><img class="pkg-thumb" src="${s.image}" onerror="this.style.display='none';this.nextSibling.style.display='flex'" alt=""><div class="pkg-thumb-ph" style="display:none">📦</div><div class="pkg-info"><div class="pkg-id">${s.id_paquete||'ID no detectado'}</div><div class="pkg-date">${s.date} · <span style="color:${cc};font-family:var(--mono);font-size:10px">${s.confianza}%</span></div><div class="pkg-synced ${s.synced?'ok':'pending'}">${s.synced?'✓ En Sheets':'⏳ Pendiente de sync'}</div></div></div><div class="pkg-card-bottom"><div><div class="pkg-field-label">⬛ Origen</div><div class="pkg-field-val ${s.origen?'ok':'nd'}">${s.origen||'N/D'}</div></div><div><div class="pkg-field-label">📅 Fecha Promesa</div><div class="pkg-field-val"><span class="fecha-badge ${fc}">${s.fecha_promesa||'N/D'}</span></div></div></div></div>`;
   }).join('');
 }
-function filterHistory(type, el) {
-  currentFilter = type;
-  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  renderHistory();
-}
-function filterScans(arr, type) {
-  const today = new Date(); today.setHours(0,0,0,0);
-  if (type==='ok')      return arr.filter(s=>s.synced);
-  if (type==='pending') return arr.filter(s=>!s.synced);
-  if (type==='today')   return arr.filter(s=>new Date(s.id)>=today);
+function filterHistory(type,el){currentFilter=type;document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderHistory();}
+function filterScans(arr,type){
+  const t=new Date();t.setHours(0,0,0,0);
+  if(type==='ok')return arr.filter(s=>s.synced);
+  if(type==='pending')return arr.filter(s=>!s.synced);
+  if(type==='today')return arr.filter(s=>new Date(s.id)>=t);
   return arr;
 }
-
-// ââââââââââââââââââââââââââââââ
-// MODAL
-// ââââââââââââââââââââââââââââââ
-function openModal(id) {
-  const s = scans.find(x=>x.id===id); if(!s) return;
-  const fc = fechaClass(s.fecha_promesa);
-  document.getElementById('modalContent').innerHTML = `
-    <img class="modal-img" src="${s.image}" onerror="this.style.display='none'" alt="">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-      <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">ESCANEO: ${s.date}</div>
-      <div style="font-size:10px;font-weight:700;${s.synced?'color:var(--ml-green)':'color:var(--ml-orange)'}">${s.synced?'â En Sheets':'â³ Pendiente'}</div>
-    </div>
-    <div class="modal-fields">
-      <div class="mf"><div class="mf-ico">â¬</div><div class="mf-info"><div class="mf-label">Origen â cuadro negro â</div><div class="mf-val ${s.origen?'':'nd'}">${s.origen||'No detectado'}</div></div></div>
-      <div class="mf"><div class="mf-ico">ð¦</div><div class="mf-info"><div class="mf-label">ID / GuÃ­a del Paquete</div><div class="mf-val ${s.id_paquete?'':'nd'}">${s.id_paquete||'No detectado'}</div></div></div>
-      <div class="mf"><div class="mf-ico">ð</div><div class="mf-info"><div class="mf-label">Fecha Promesa de Entrega</div><div class="mf-val ${s.fecha_promesa?'':'nd'}">${s.fecha_promesa?`<span class="fecha-badge ${fc}">${s.fecha_promesa}</span>`:'No detectada'}</div></div></div>
-      ${s.notas?`<div class="mf"><div class="mf-ico">ð¡</div><div class="mf-info"><div class="mf-label">Notas IA</div><div class="mf-val" style="font-size:13px">${s.notas}</div></div></div>`:''}
-    </div>
-    <div style="padding:10px 12px;background:#f8f9ff;border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:10px;margin-bottom:14px">
-      <span style="font-family:var(--mono);font-size:9px;color:var(--muted)">CONFIANZA IA</span>
-      <div style="flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden">
-        <div style="height:100%;width:${s.confianza}%;background:${s.confianza>=70?'var(--ml-green)':s.confianza>=40?'var(--ml-orange)':'var(--ml-red)'};border-radius:3px"></div>
-      </div>
-      <span style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ml-blue)">${s.confianza}%</span>
-    </div>
-    <div class="modal-actions">
-      <button class="mbtn mbtn-primary" onclick="copyAll(${id})">ð Copiar</button>
-      <button class="mbtn mbtn-green"   onclick="retryOne(${id})">ð Sync</button>
-      <button class="mbtn mbtn-secondary" onclick="openSheet()">ð Sheet</button>
-      <button class="mbtn mbtn-danger"  onclick="deleteScan(${id})">ðï¸</button>
-    </div>`;
+function openModal(id){
+  const s=scans.find(x=>x.id===id);if(!s)return;
+  const fc=fechaClass(s.fecha_promesa);
+  document.getElementById('modalContent').innerHTML=`<img class="modal-img" src="${s.image}" onerror="this.style.display='none'" alt=""><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><div style="font-family:var(--mono);font-size:10px;color:var(--muted)">ESCANEO: ${s.date}</div><div style="font-size:10px;font-weight:700;${s.synced?'color:var(--ml-green)':'color:var(--ml-orange)'}">${s.synced?'✓ En Sheets':'⏳ Pendiente'}</div></div><div class="modal-fields"><div class="mf"><div class="mf-ico">⬛</div><div class="mf-info"><div class="mf-label">Origen — cuadro negro ↖</div><div class="mf-val ${s.origen?'':'nd'}">${s.origen||'No detectado'}</div></div></div><div class="mf"><div class="mf-ico">📦</div><div class="mf-info"><div class="mf-label">ID / Guía del Paquete</div><div class="mf-val ${s.id_paquete?'':'nd'}">${s.id_paquete||'No detectado'}</div></div></div><div class="mf"><div class="mf-ico">📅</div><div class="mf-info"><div class="mf-label">Fecha Promesa de Entrega</div><div class="mf-val ${s.fecha_promesa?'':'nd'}">${s.fecha_promesa?`<span class="fecha-badge ${fc}">${s.fecha_promesa}</span>`:'No detectada'}</div></div></div>${s.notas?`<div class="mf"><div class="mf-ico">💡</div><div class="mf-info"><div class="mf-label">Notas IA</div><div class="mf-val" style="font-size:13px">${s.notas}</div></div></div>`:''}</div><div style="padding:10px 12px;background:#f8f9ff;border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:10px;margin-bottom:14px"><span style="font-family:var(--mono);font-size:9px;color:var(--muted)">CONFIANZA IA</span><div style="flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;width:${s.confianza}%;background:${s.confianza>=70?'var(--ml-green)':s.confianza>=40?'var(--ml-orange)':'var(--ml-red)'};border-radius:3px"></div></div><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ml-blue)">${s.confianza}%</span></div><div class="modal-actions"><button class="mbtn mbtn-primary" onclick="copyAll(${id})">📋 Copiar</button><button class="mbtn mbtn-green" onclick="retryOne(${id})">🔄 Sync</button><button class="mbtn mbtn-secondary" onclick="openSheet()">📊 Sheet</button><button class="mbtn mbtn-danger" onclick="deleteScan(${id})">🗑️</button></div>`;
   document.getElementById('modal').classList.add('open');
 }
-function closeModal() { document.getElementById('modal').classList.remove('open'); }
-async function retryOne(id) {
-  const s = scans.find(x=>x.id===id); if(!s) return;
-  closeModal();
-  const ok = await pushToSheets(s);
-  s.synced = ok; saveScans(); renderHistory(); renderDashboard();
-  toast(ok?'â Sincronizado en Sheets':'â No se pudo enviar', ok?'ok':'err');
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+async function retryOne(id){const s=scans.find(x=>x.id===id);if(!s)return;closeModal();const ok=await pushToSheets(s);s.synced=ok;saveScans();renderHistory();renderDashboard();toast(ok?'✅ Sincronizado en Sheets':'❌ No se pudo enviar',ok?'ok':'err');}
+function copyAll(id){const s=scans.find(x=>x.id===id);if(!s)return;navigator.clipboard.writeText(`ORIGEN: ${s.origen||'N/D'}\nID PAQUETE: ${s.id_paquete||'N/D'}\nFECHA PROMESA: ${s.fecha_promesa||'N/D'}`).then(()=>toast('📋 Datos copiados'));}
+function deleteScan(id){scans=scans.filter(s=>s.id!==id);saveScans();renderHistory();renderDashboard();renderReports();closeModal();toast('🗑️ Eliminado');}
+function renderDashboard(){
+  const total=scans.length,synced=scans.filter(s=>s.synced).length,pending=total-synced;
+  const today=new Date();today.setHours(0,0,0,0);
+  const todayN=scans.filter(s=>new Date(s.id)>=today).length;
+  document.getElementById('statTotal').textContent=total;
+  document.getElementById('statSynced').textContent=synced;
+  document.getElementById('statPending').textContent=pending;
+  document.getElementById('statTodayLabel').textContent=`${todayN} hoy`;
+  const hi=scans.filter(s=>s.confianza>=70).length,mid=scans.filter(s=>s.confianza>=40&&s.confianza<70).length,lo=scans.filter(s=>s.confianza<40).length,maxC=Math.max(hi,mid,lo,1);
+  document.getElementById('confChart').innerHTML=[{l:'Alta ≥70%',v:hi,c:'var(--ml-green)'},{l:'Media 40-69%',v:mid,c:'var(--ml-orange)'},{l:'Baja <40%',v:lo,c:'var(--ml-red)'}].map(({l,v,c})=>`<div class="bar-row"><div class="bar-label">${l}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxC*100)}%;background:${c}"></div></div><div class="bar-val">${v}</div></div>`).join('');
+  const pct=total?Math.round(synced/total*100):0,cf=251.2;
+  document.getElementById('ringPct').textContent=pct+'%';
+  setTimeout(()=>{document.getElementById('ringFill').style.strokeDashoffset=cf-pct/100*cf;},100);
+  document.getElementById('ri1').textContent=synced;document.getElementById('ri2').textContent=pending;document.getElementById('ri3').textContent=total;
+  const onTime=scans.filter(s=>fechaClass(s.fecha_promesa)==='fb-ok').length,urgent=scans.filter(s=>fechaClass(s.fecha_promesa)==='fb-urgent').length,late=scans.filter(s=>fechaClass(s.fecha_promesa)==='fb-late').length,noDate=scans.filter(s=>!s.fecha_promesa).length,maxF=Math.max(onTime,urgent,late,noDate,1);
+  document.getElementById('fechaChart').innerHTML=[{l:'A tiempo',v:onTime,c:'var(--ml-green)'},{l:'Urgente',v:urgent,c:'var(--ml-orange)'},{l:'Tarde',v:late,c:'var(--ml-red)'},{l:'Sin fecha',v:noDate,c:'var(--muted)'}].map(({l,v,c})=>`<div class="bar-row"><div class="bar-label">${l}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxF*100)}%;background:${c}"></div></div><div class="bar-val">${v}</div></div>`).join('');
 }
-function copyAll(id) {
-  const s = scans.find(x=>x.id===id); if(!s) return;
-  navigator.clipboard.writeText(`ORIGEN: ${s.origen||'N/D'}\nID PAQUETE: ${s.id_paquete||'N/D'}\nFECHA PROMESA: ${s.fecha_promesa||'N/D'}`)
-    .then(()=>toast('ð Datos copiados'));
+function renderReports(filtered){
+  const data=filtered||scans;
+  document.getElementById('reportSubtitle').textContent=`${data.length} registro(s)`;
+  const tbody=document.getElementById('reportBody');
+  if(!data.length){tbody.innerHTML=`<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Sin registros</td></tr>`;return;}
+  tbody.innerHTML=data.slice(0,20).map(s=>{const cc=s.confianza>=70?'hi':s.confianza>=40?'mid':'lo',fc=fechaClass(s.fecha_promesa);return `<tr><td class="td-id">${(s.id_paquete||'—').substring(0,16)}</td><td style="font-size:12px;color:var(--text-2)">${(s.origen||'—').substring(0,10)}</td><td><span class="fecha-badge ${fc}" style="font-size:10px">${s.fecha_promesa||'—'}</span></td><td class="td-conf ${cc}">${s.confianza}%</td></tr>`;}).join('');
 }
-function deleteScan(id) {
-  scans = scans.filter(s=>s.id!==id); saveScans();
-  renderHistory(); renderDashboard(); renderReports(); closeModal();
-  toast('ðï¸ Eliminado');
-}
-// ââââââââââââââââââââââââââââââ
-// DASHBOARD
-// ââââââââââââââââââââââââââââââ
-function renderDashboard() {
-  const total   = scans.length;
-  const synced  = scans.filter(s=>s.synced).length;
-  const pending = total - synced;
-  const today   = new Date(); today.setHours(0,0,0,0);
-  const todayN  = scans.filter(s=>new Date(s.id)>=today).length;
-  document.getElementById('statTotal').textContent   = total;
-  document.getElementById('statSynced').textContent  = synced;
-  document.getElementById('statPending').textContent = pending;
-  document.getElementById('statTodayLabel').textContent = `${todayN} hoy`;
-  const hi  = scans.filter(s=>s.confianza>=70).length;
-  const mid = scans.filter(s=>s.confianza>=40&&s.confianza<70).length;
-  const lo  = scans.filter(s=>s.confianza<40).length;
-  const maxC = Math.max(hi,mid,lo,1);
-  document.getElementById('confChart').innerHTML = [
-    {l:'Alta â¥70%',v:hi,  c:'var(--ml-green)'},
-    {l:'Media 40-69%',v:mid,c:'var(--ml-orange)'},
-    {l:'Baja <40%', v:lo, c:'var(--ml-red)'}
-  ].map(({l,v,c})=>`<div class="bar-row"><div class="bar-label">${l}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxC*100)}%;background:${c}"></div></div><div class="bar-val">${v}</div></div>`).join('');
-  const pct = total ? Math.round(synced/total*100) : 0;
-  document.getElementById('ringPct').textContent = pct + '%';
-  setTimeout(()=>{ document.getElementById('ringFill').style.strokeDashoffset = 251.2 - pct/100*251.2; },100);
-  document.getElementById('ri1').textContent = synced;
-  document.getElementById('ri2').textContent = pending;
-  document.getElementById('ri3').textContent = total;
-  const onTime = scans.filter(s=>fechaClass(s.fecha_promesa)==='fb-ok').length;
-  const urgent = scans.filter(s=>fechaClass(s.fecha_promesa)==='fb-urgent').length;
-  const late   = scans.filter(s=>fechaClass(s.fecha_promesa)==='fb-late').length;
-  const noDate = scans.filter(s=>!s.fecha_promesa).length;
-  const maxF = Math.max(onTime,urgent,late,noDate,1);
-  document.getElementById('fechaChart').innerHTML = [
-    {l:'A tiempo',v:onTime,c:'var(--ml-green)'},
-    {l:'Urgente',v:urgent,c:'var(--ml-orange)'},
-    {l:'Tarde',v:(late,c:'var(--ml-red)'},
-    {l:'Sin fecha',v:noDate,c:'var(--muted)'}
-  ].map(({l,v,c})=>`<div class="bar-row"><div class="bar-label">${l}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxF*100)}%;background:${c}"></div></div><div class="bar-val">${v}</div></div>`).join('');
-}
-
-function renderReports(filtered) {
-  const data = filtered || scans;
-  document.getElementById('reportSubtitle').textContent = `${data.length} registro(s)`;
-  const tbody = document.getElementById('reportBody');
-  if (!data.length) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Sin registros</td></tr>`; return; }
-  tbody.innerHTML = data.slice(0,20).map(s=>{
-    const cc = s.confianza>=70?'hi':s.confianza>=40?'mid':'lo';
-    const fc = fechaClass(s.fecha_promesa);
-    return `<tr><td class="td-id">${(s.id_paquete||'â').substring(0,16)}</td><td style="font-size:12px;color:var(--text-2)">${s.s.origen||'â').substring(0,10)}</td><td><span class="fecha-badge ${fc}" style="font-size:10px">${s.fecha_promesa||'â'}</span></td><td class="td-conf ${cc}">${s.confianza}%</td></tr>`;
-  }).join('');
-}
-function searchScans() {
-  const q = document.getElementById('searchInput').value.toLowerCase();
-  const status = document.getElementById('filterStatus').value;
-  let res = scans;
-  if (q) res = res.filter(s=>(s.id_paquete||'').toLowerCase().includes(q)||(s.origen||'').toLowerCase().includes(q));
-  if (status==='synced') res = res.filter(s=>s.synced);
-  if (status==='pending') res = res.filter(s=>!s.synced);
-  renderReports(res);
-}
-function exportCSV() {
-  if (!scans.length) { toast('Sin datos', 'warn'); return; }
-  const h = 'Fecha,Origen,ID/GuÃ­a,FechaPromesa,Confianza,Notas,Sync\n';
-  const r = scans.map(s=>[s.date,s.origen||'',s.id_paquete||'',s.fecha_promesa||'',s.confianza,s.notas||'',s.synced?'SÃ­':'No'].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob = new Blob(['\ufeff'+h+r],{type:'text/csv;charset=utf-8'});
-  const a = Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:`ML-Scanner-${new Date().toISOString().split('T')[0]}.csv`});
-  a.click(); toast('ð CSV descargado', 'ok');
-}
-function exportJSON() {
-  if (!scans.length) { toast('Sin datos', 'warn'); return; }
-  const data = scans.map(({id,date,origen,id_paquete,fecha_promesa,confianza,notas,synced})=>({id,date,origen,id_paquete,fecha_promesa,confianza,notas,synced}));
-  const a = Object.assign(document.createElement('a'),{href:URL-createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),download:`ML-Scanner-${new Date().toISOString().split('T')[0]}.json`});
-  a.click(); toast('ð JSON descargado', 'ok');
-}
-function clearAll() {
-  if (!confirm('âEliminar historial local?')) return;
-  scans=[]; saveScans(); renderHistory(); renderDashboard(); renderReports();
-  document.getElementById('liveResult').classList.remove('show');
-  toast('ðï¸ Historial limpiado');
-}
-function fechaClass(f) {
-  if (!f) return 'fb-nd';
-  const p = f.split('/'); if(p.length<3) return 'fb-nd';
-  const d = new Date(`${p[2]}-${p[1]}-${p[0]}`);
-  const now = new Date(); now.setHours(0,0,0,0);
-  const diff = Math.ceil((d-now)/86400000);
-  return diff<0?'fb-late':diff<=2?'fb-urgent':'fb-ok';
-}
-function saveScans() { localStorage.setItem('mlscanner_v1', JSON.stringify(scans)); }
-function showProc() {
-  document.getElementById('processing').classList.add('show');
-  ['s1','s2','s3','s4','s5'].forEach(id=>{ document.getElementById(id).className='step'; });
-}
-function hideProc() { document.getElementById('processing').classList.remove('show'); }
-function stepV(id) { document.getElementById(id).classList.add('visible'); }
-function stepD(id) { document.getElementById(id).classList.add('done'); }
-const delay = ms => new Promise(r=>setTimeout(r,ms));
-function toast(msg, type='') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast show' + (type?' '+type:'');
-  setTimeout(()=>t.classList.remove('show'), 2800);
-}
-function showGuide() { toast('Extensiones â Apps Script â Implementar â Web App', 'warn'); }
-</script>
-</body>
-</html>
-ction deleteScan(id) {
-  scans = scans.filter(s=>s.id!==id); saveScans();
-  renderHistory(); renderDashboard(); renderReports(); closeModal();
-  toast('ðï¸ Eliminado');
-}
-
-// ââââââââââââââââââââââââââââââ
-// DASHBOARD
-// ââââââââââââââââââââââââââââââ
-function renderDashboard() {
-  const total   = scans.length;
-  const synced  = scans.filter(s=>s.synced).length;
-  const pending = total - synced;
-  const today   = new Date(); today.setHours(0,0,0,0);
-  const todayN  = scans.filter(s=>new Date(s.id)>=today).length;
-  document.getElementById('statTotal').textContent   = total;
-  document.getElementById('statSynced').textContent  = synced;
-  document.getElementById('statPending').textContent = pending;
-  document.getElementById('statTodayLabel').textContent = `${todayN} hoy`;
-  // Confidence chart
-  const hi  = scans.filter(s=>s.confianza>=70).length;
-  const mid = scans.filter(s=>s.confianza>=40&&s.confianza<70).length;
-  const lo  = scans.filter(s=>s.confianza<40).length;
-  const maxC = Math.max(hi,mid,lo,1);
-  document.getElementById('confChart').innerHTML = [
-    {l:'Alta â¥70%',v:hi,  c:'var(--ml-green)'},
-    {l:'Media 40-69%',v:mid,c:'var(--ml-orange)'},
-    {l:'Baja <40%', v:lo, c:'var(--ml-red)'}
-  ].map(({l,v,c})=>`<div class="bar-row">
-    <div class="bar-label">${l}</div>
-    <div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxC*100)}%;background:${c}"></div></div>
-    <div class="bar-val">${v}</div>
-  </div>`).join('');
-  // Ring
-  const pct = total ? Math.round(synced/total*100) : 0;
-  const circumference = 251.2;
-  const offset = circumference - (pct/100*circumference);
-  document.getElementById('ringPct').textContent = pct + '%';
-  setTimeout(()=>{ document.getElementById('ringFill').style.strokeDashoffset = offset; },100);
-  document.getElementById('ri1').textContent = synced;
-  document.getElementById('ri2').textContent = pending;
-  document.getElementById('ri3').textContent = total;
-  // Fechas
-  const onTime  = scans.filter(s=>fechaClass(s.fecha_promesa)==='fb-ok').length;
-  const urgent  = scans.filter(s=>fechaClass(s.fecha_promesa)==='fb-urgent').length;
-  const late    = scans.filter(s=>fechaClass(s.fecha_promesa)==='fb-late').length;
-  const noDate  = scans.filter(s=>!s.fecha_promesa).length;
-  const maxF = Math.max(onTime,urgent,late,noDate,1);
-  document.getElementById('fechaChart').innerHTML = [
-    {l:'A tiempo', v:onTime, c:'var(--ml-green)'},
-    {l:'Urgente',  v:urgent, c:'var(--ml-orange)'},
-    {l:'Tarde',    v:late,   c:'var(--ml-red)'},
-    {l:'Sin fecha',v:noDate, c:'var(--muted)'}
-  ].map(({l,v,c})=>`<div class="bar-row">
-    <div class="bar-label">${l}</div>
-    <div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/maxF*100)}%;background:${c}"></div></div>
-    <div class="bar-val">${v}</div>
-  </div>`).join('');
-}
-
-// ââââââââââââââââââââââââââââââ
-// REPORTS
-// ââââââââââââââââââââââââââââââ
-function renderReports(filtered) {
-  const data = filtered || scans;
-  document.getElementById('reportSubtitle').textContent = `${data.length} registro(s)`;
-  const tbody = document.getElementById('reportBody');
-  if (!data.length) {
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Sin registros</td></tr>`;
-    return;
-  }
-  tbody.innerHTML = data.slice(0,20).map(s=>{
-    const cc = s.confianza>=70?'hi':s.confianza>=40?'mid':'lo';
-    const fc = fechaClass(s.fecha_promesa);
-    return `<tr>
-      <td class="td-id">${(s.id_paquete||'â').substring(0,16)}</td>
-      <td style="font-size:12px;color:var(--text-2)">${(s.origen||'â').substring(0,10)}</td>
-      <td><span class="fecha-badge ${fc}" style="font-size:10px">${s.fecha_promesa||'â'}</span></td>
-      <td class="td-conf ${cc}">${s.confianza}%</td>
-    </tr>`;
-  }).join('');
-}
-function searchScans() {
-  const q      = document.getElementById('searchInput').value.toLowerCase();
-  const status = document.getElementById('filterStatus').value;
-  let res = scans;
-  if (q) res = res.filter(s=>(s.id_paquete||'').toLowerCase().includes(q)||(s.origen||'').toLowerCase().includes(q));
-  if (status==='synced')  res = res.filter(s=>s.synced);
-  if (status==='pending') res = res.filter(s=>!s.synced);
-  renderReports(res);
-}
-function exportCSV() {
-  if (!scans.length) { toast('Sin datos para exportar', 'warn'); return; }
-  const header = 'Fecha,Origen,ID/GuÃ­a,Fecha Promesa,Confianza IA,Notas,Sincronizado\n';
-  const rows = scans.map(s=>[s.date,s.origen||'',s.id_paquete||'',s.fecha_promesa||'',s.confianza,s.notas||'',s.synced?'SÃ­':'No'].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob = new Blob(['\ufeff'+header+rows],{type:'text/csv;charset=utf-8'});
-  const url  = URL.createObjectURL(blob);
-  const a    = Object.assign(document.createElement('a'),{href:url,download:`ML-Scanner-${new Date().toISOString().split('T')[0]}.csv`});
-  a.click(); URL.revokeObjectURL(url);
-  toast('ð CSV descargado', 'ok');
-}
-function exportJSON() {
-  if (!scans.length) { toast('Sin datos para exportar', 'warn'); return; }
-  const data = scans.map(({id,date,origen,id_paquete,fecha_promesa,confianza,notas,synced})=>({id,date,origen,id_paquete,fecha_promesa,confianza,notas,synced}));
-  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url  = URL.createObjectURL(blob);
-  const a    = Object.assign(document.createElement('a'),{href:url,download:`ML-Scanner-${new Date().toISOString().split('T')[0]}.json`});
-  a.click(); URL.revokeObjectURL(url);
-  toast('ð JSON descargado', 'ok');
-}
-function clearAll() {
-  if (!confirm('Â¿Eliminar todo el historial local? Esta acciÃ³n no se puede deshacer.')) return;
-  scans = []; saveScans();
-  renderHistory(); renderDashboard(); renderReports();
-  document.getElementById('liveResult').classList.remove('show');
-  toast('ðï¸ Historial limpiado');
-}
-
-// ââââââââââââââââââââââââââââââ
-// UTILS
-// ââââââââââââââââââââââââââââââ
-function fechaClass(f) {
-  if (!f) return 'fb-nd';
-  const p = f.split('/'); if(p.length<3) return 'fb-nd';
-  const d   = new Date(`${p[2]}-${p[1]}-${p[0]}`);
-  const now = new Date(); now.setHours(0,0,0,0);
-  const diff = Math.ceil((d-now)/86400000);
-  return diff<0?'fb-late':diff<=2?'fb-urgent':'fb-ok';
-}
-function saveScans() { localStorage.setItem('mlscanner_v1', JSON.stringify(scans)); }
-function showProc() {
-  document.getElementById('processing').classList.add('show');
-  ['s1','s2','s3','s4','s5'].forEach(id=>{ document.getElementById(id).className='step'; });
-}
-function hideProc() { document.getElementById('processing').classList.remove('show'); }
-function stepV(id) { document.getElementById(id).classList.add('visible'); }
-function stepD(id) { document.getElementById(id).classList.add('done'); }
-const delay = ms => new Promise(r=>setTimeout(r,ms));
-function toast(msg, type='') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast show' + (type?' '+type:'');
-  setTimeout(()=>t.classList.remove('show'), 2800);
-}
-function showGuide() { toast('Extensiones â Apps Script â Implementar â Web App', 'warn'); }
+function searchScans(){const q=document.getElementById('searchInput').value.toLowerCase(),st=document.getElementById('filterStatus').value;let r=scans;if(q)r=r.filter(s=>(s.id_paquete||'').toLowerCase().includes(q)||(s.origen||'').toLowerCase().includes(q));if(st==='synced')r=r.filter(s=>s.synced);if(st==='pending')r=r.filter(s=>!s.synced);renderReports(r);}
+function exportCSV(){if(!scans.length){toast('Sin datos','warn');return;}const h='Fecha,Origen,ID/Guía,Fecha Promesa,Confianza IA,Notas,Sincronizado\n',r=scans.map(s=>[s.date,s.origen||'',s.id_paquete||'',s.fecha_promesa||'',s.confianza,s.notas||'',s.synced?'Sí':'No'].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');const b=new Blob(['\ufeff'+h+r],{type:'text/csv;charset=utf-8'});Object.assign(document.createElement('a'),{href:URL.createObjectURL(b),download:`ML-Scanner-${new Date().toISOString().split('T')[0]}.csv`}).click();toast('📊 CSV descargado','ok');}
+function exportJSON(){if(!scans.length){toast('Sin datos','warn');return;}const d=scans.map(({id,date,origen,id_paquete,fecha_promesa,confianza,notas,synced})=>({id,date,origen,id_paquete,fecha_promesa,confianza,notas,synced}));const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});Object.assign(document.createElement('a'),{href:URL.createObjectURL(b),download:`ML-Scanner-${new Date().toISOString().split('T')[0]}.json`}).click();toast('📋 JSON descargado','ok');}
+function clearAll(){if(!confirm('¿Eliminar todo el historial local? Esta acción no se puede deshacer.'))return;scans=[];saveScans();renderHistory();renderDashboard();renderReports();document.getElementById('liveResult').classList.remove('show');toast('🗑️ Historial limpiado');}
+function fechaClass(f){if(!f)return 'fb-nd';const p=f.split('/');if(p.length<3)return 'fb-nd';const d=new Date(`${p[2]}-${p[1]}-${p[0]}`),now=new Date();now.setHours(0,0,0,0);const diff=Math.ceil((d-now)/86400000);return diff<0?'fb-late':diff<=2?'fb-urgent':'fb-ok';}
+function saveScans(){localStorage.setItem('mlscanner_v1',JSON.stringify(scans));}
+function showProc(){document.getElementById('processing').classList.add('show');['s1','s2','s3','s4','s5'].forEach(id=>{document.getElementById(id).className='step';});}
+function hideProc(){document.getElementById('processing').classList.remove('show');}
+function stepV(id){document.getElementById(id).classList.add('visible');}
+function stepD(id){document.getElementById(id).classList.add('done');}
+const delay=ms=>new Promise(r=>setTimeout(r,ms));
+function toast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(type?' '+type:'');setTimeout(()=>t.classList.remove('show'),2800);}
+function showGuide(){toast('Extensiones → Apps Script → Implementar → Web App','warn');}
 </script>
 </body>
 </html>
