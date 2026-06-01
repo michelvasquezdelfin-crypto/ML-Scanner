@@ -540,7 +540,7 @@ async function processImage(imageData){
     const base64=imageData.split(',')[1];
     const mediaType=imageData.startsWith('data:image/png')?'image/png':'image/jpeg';
     const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
+      method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',max_tokens:1000,
         system:`Eres un sistema especializado en leer etiquetas de paquetería/logística de MercadoLibre.\n\nINSTRUCCIÓN CRÍTICA PARA "origen":\nEl origen se encuentra EXCLUSIVAMENTE en el CUADRO NEGRO (fondo negro con texto blanco/claro) ubicado en la PARTE SUPERIOR IZQUIERDA de la etiqueta. Lee únicamente el texto visible dentro de ese rectángulo oscuro. Si no existe ese cuadro negro en la esquina superior izquierda, devuelve null para origen. NO tomes el origen de otra parte.\n\nExtrae ÚNICAMENTE estos campos en JSON puro (sin markdown):\n{\n  "origen": "texto exacto del cuadro negro superior izquierdo, o null",\n  "id_paquete": "código de rastreo o número de guía, o null",\n  "fecha_promesa": "fecha prometida de entrega en formato DD/MM/YYYY, o null",\n  "confianza": número 0-100,\n  "notas": "observación breve o null"\n}\nResponde SOLO con el JSON.`,
