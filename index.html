@@ -318,11 +318,10 @@ canvas { display:none; }
 <div class="setup-banner" id="setupBanner">
   <div class="setup-ico">⚡</div>
   <div class="setup-body">
-    <div class="setup-title">🤖 Activa la IA — Gemini API Key (gratis)</div>
-    <div class="setup-desc">Obtén tu key gratis en <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--ml-blue);font-weight:700">aistudio.google.com/apikey</a> → tarda 2 min</div>
+    <div class="setup-title">📊 Conecta Google Sheets (opcional)</div>
+    <div class="setup-desc">La app ya funciona sin configuración. Para guardar en Sheets, pega la URL de tu Apps Script.</div>
     <div class="setup-inputs">
-      <input class="setup-input" id="geminiInput" placeholder="AIzaSy..." type="text" oninput="document.getElementById('scriptInput').value=this.value">
-      <input class="setup-input" id="scriptInput" placeholder="https://script.google.com/..." type="url" style="display:none">
+      <input class="setup-input" id="scriptInput" placeholder="https://script.google.com/macros/s/.../exec" type="url">
       <button class="setup-save" onclick="saveScript()">Guardar</button>
     </div>
   </div>
@@ -488,22 +487,14 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 function checkSetup(){
   const b=document.getElementById('setupBanner');
-  const gk=localStorage.getItem('mlscanner_gemini_key')||'';
-  if(!gk){b.classList.add('show');setStatus('not-configured');}else{b.classList.remove('show');setStatus('ok');}
-  if(document.getElementById('geminiInput')&&gk) document.getElementById('geminiInput').value=gk;
+  if(!SCRIPT_URL){b.classList.add('show');}else{b.classList.remove('show');}
+  setStatus(SCRIPT_URL?'ok':'not-configured');
 }
 function saveScript(){
   const v=document.getElementById('scriptInput').value.trim();
-  if(v.startsWith('AIza')||v.length>20){
-    localStorage.setItem('mlscanner_gemini_key',v);
-    if(document.getElementById('geminiInput')) document.getElementById('geminiInput').value=v;
-    checkSetup();toast('✅ Gemini API Key guardada','ok');
-  } else if(v.startsWith('https://script.google.com/')){
-    SCRIPT_URL=v;localStorage.setItem('mlscanner_script',SCRIPT_URL);checkSetup();
-    toast('✅ Webhook guardado','ok');retrySyncPending();
-  } else {
-    toast('⚠️ Pega tu Gemini Key (AIza...) o URL de Sheets','warn');
-  }
+  if(!v.startsWith('https://script.google.com/')){toast('⚠️ URL inválida — debe ser de script.google.com','warn');return;}
+  SCRIPT_URL=v;localStorage.setItem('mlscanner_script',SCRIPT_URL);checkSetup();
+  toast('✅ Sheets conectado','ok');retrySyncPending();
 }
 function goTo(s,el){
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
@@ -544,35 +535,107 @@ function handleUpload(e){
   r.readAsDataURL(f);e.target.value='';
 }
 async function processImage(imageData){
-  showProc();stepV('s1');await delay(250);stepV('s2');
+  showProc();stepV('s1');await delay(150);stepV('s2');
   let parsed=null;
   try{
-    const base64=imageData.split(',')[1];
-    const mediaType=imageData.startsWith('data:image/png')?'image/png':'image/jpeg';
-    const res=const GEMINI_KEY=localStorage.getItem('mlscanner_gemini_key')||'';
-    if(!GEMINI_KEY)throw new Error('Sin API Key de Gemini');
-    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite-preview-06-17:generateContent?key=${GEMINI_KEY}`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({contents:[{role:'user',parts:[
-        {inline_data:{mime_type:mediaType,data:base64}},
-        {text:'Eres experto en etiquetas MercadoLibre. Extrae SOLO JSON puro:\n{"origen":"texto del cuadro negro superior izquierdo o null","id_paquete":"codigo rastreo o null","fecha_promesa":"DD/MM/YYYY o null","confianza":0-100,"notas":"breve o null"}\nRespuesta: SOLO el JSON.'}
-      ]}],generationConfig:{maxOutputTokens:300,temperature:0.1}})
-    });
+    // Load Tesseract if not loaded yet
+    if(!window.Tesseract){
+      await new Promise((res,rej)=>{
+        const s=document.createElement('script');
+        s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+        s.onload=res;s.onerror=rej;
+        document.head.appendChild(s);
+      });
+    }
     stepD('s2');stepV('s3');
-    const data=await res.json();
-    const raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'{}';
-    parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    // Run OCR on the image
+    const result=await Tesseract.recognize(imageData,['spa','eng'],{
+      logger:()=>{}
+    });
+    const text=result.data.text||'';
+    stepD('s3');stepV('s4');
+    // Parse OCR text to extract package fields
+    parsed=parseOCRText(text);
   }catch(err){
     console.error(err);
-    parsed={origen:null,id_paquete:null,fecha_promesa:null,confianza:0,notas:'Error al procesar'};
+    parsed={origen:null,id_paquete:null,fecha_promesa:null,confianza:20,notas:'Error OCR: '+err.message};
   }
-  stepD('s3');stepV('s4');
-  const scan={id:Date.now(),image:imageData,origen:parsed.origen||null,id_paquete:parsed.id_paquete||null,fecha_promesa:parsed.fecha_promesa||null,confianza:parsed.confianza||0,notas:parsed.notas||null,date:new Date().toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'}),synced:false};
+  stepD('s4');stepV('s5');
+  const scan={
+    id:Date.now(),image:imageData,
+    origen:parsed.origen||null,id_paquete:parsed.id_paquete||null,
+    fecha_promesa:parsed.fecha_promesa||null,confianza:parsed.confianza||0,
+    notas:parsed.notas||null,
+    date:new Date().toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'}),
+    synced:false
+  };
   const ok=await pushToSheets(scan);scan.synced=ok;
-  stepD('s4');stepV('s5');await delay(300);hideProc();
+  await delay(200);hideProc();
   scans.unshift(scan);saveScans();showLiveResult(scan,ok);
-  toast(ok?'📊 Guardado en Sheets':'💾 Guardado localmente',ok?'ok':'warn');
+  toast(ok?'\ud83d\udcca Guardado en Sheets':'\ud83d\udcbe Guardado localmente',ok?'ok':'warn');
 }
+
+function parseOCRText(text){
+  const lines=text.split('\n').map(l=>l.trim()).filter(l=>l.length>2);
+  const full=text.toUpperCase();
+  let origen=null,id_paquete=null,fecha_promesa=null,confianza=60,notas=null;
+
+  // ID / Guía: busca patrones de tracking MercadoLibre
+  const idPatterns=[
+    /\b(MP[A-Z]{2}\d{8,14})\b/,          // MPME12345678
+    /\b([A-Z]{2}\d{9}[A-Z]{2})\b/,        // MX123456789MX (postal)
+    /\b(\d{20,22})\b/,                     // número largo (Estafeta/FedEx)
+    /\b([A-Z0-9]{10,25})\b/,               // código alfanumérico genérico
+  ];
+  for(const p of idPatterns){
+    const m=text.match(p);
+    if(m){id_paquete=m[1];break;}
+  }
+
+  // Fecha promesa: DD/MM/YYYY o variantes
+  const datePatterns=[
+    /(\d{1,2}[\/\-\.](\d{1,2})[\/\-\.](\d{2,4}))/,
+    /ENTREGA[:\s]+(.{5,15})/i,
+    /PROMESA[:\s]+(.{5,15})/i,
+    /FECHA[:\s]+(.{5,15})/i,
+  ];
+  for(const p of datePatterns){
+    const m=text.match(p);
+    if(m){
+      let d=m[1].replace(/[-\.]/g,'/');
+      // normalize to DD/MM/YYYY
+      const parts=d.split('/');
+      if(parts.length===3){
+        const yr=parts[2].length===2?'20'+parts[2]:parts[2];
+        fecha_promesa=parts[0].padStart(2,'0')+'/'+parts[1].padStart(2,'0')+'/'+yr;
+      }
+      break;
+    }
+  }
+
+  // Origen (cuadro negro superior izquierdo): primeras líneas del texto
+  // Busca palabras que parezcan origen/ciudad
+  const ciudades=['CDMX','GDL','MTY','MONTERREY','GUADALAJARA','MEXICO','PUEBLA','QUERETARO','CANCUN','TIJUANA','MERIDA','HERMOSILLO','CHIHUAHUA','LEON','TOLUCA','VERACRUZ','ACAPULCO','CULIACAN','AGUASCALIENTES','MORELIA'];
+  for(const ciudad of ciudades){
+    if(full.includes(ciudad)){origen=ciudad;break;}
+  }
+  // Si no encontró ciudad conocida, toma la primera línea corta como origen
+  if(!origen && lines.length>0){
+    const firstLine=lines[0];
+    if(firstLine.length>=3 && firstLine.length<=30 && !/\d{5,}/.test(firstLine)){
+      origen=firstLine;
+    }
+  }
+
+  // Confianza basada en cuántos campos encontramos
+  let found=0;
+  if(origen)found++;if(id_paquete)found++;if(fecha_promesa)found++;
+  confianza=found===3?85:found===2?65:found===1?45:25;
+
+  if(text.trim().length<20){notas='Imagen poco clara — acerca más la cámara';confianza=15;}
+  return{origen,id_paquete,fecha_promesa,confianza,notas};
+}
+
 async function pushToSheets(scan){
   if(!SCRIPT_URL)return false;setStatus('syncing');
   try{
