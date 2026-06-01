@@ -553,6 +553,8 @@ async function processImage(imageData){
       logger:()=>{}
     });
     const text=result.data.text||'';
+    console.log('OCR RAW TEXT:', JSON.stringify(text));
+    window.__lastOCR__ = text;
     stepD('s3');stepV('s4');
     // Parse OCR text to extract package fields
     parsed=parseOCRText(text);
@@ -633,6 +635,8 @@ function parseOCRText(text){
   confianza=found===3?85:found===2?65:found===1?45:25;
 
   if(text.trim().length<20){notas='Imagen poco clara — acerca más la cámara';confianza=15;}
+  // DEBUG: always show first 120 chars of OCR in notas
+  if(!notas) notas='OCR: '+text.replace(/\n/g,' ').trim().substring(0,120);
   return{origen,id_paquete,fecha_promesa,confianza,notas};
 }
 
