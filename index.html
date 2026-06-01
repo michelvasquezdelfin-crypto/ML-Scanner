@@ -318,10 +318,11 @@ canvas { display:none; }
 <div class="setup-banner" id="setupBanner">
   <div class="setup-ico">⚡</div>
   <div class="setup-body">
-    <div class="setup-title">Conecta Google Sheets para guardar automáticamente</div>
-    <div class="setup-desc">Pega la URL de tu Apps Script Web App. <a href="#" onclick="showGuide();return false;">¿Cómo obtenerla? →</a></div>
+    <div class="setup-title">🤖 Activa la IA — Gemini API Key (gratis)</div>
+    <div class="setup-desc">Obtén tu key gratis en <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--ml-blue);font-weight:700">aistudio.google.com/apikey</a> → tarda 2 min</div>
     <div class="setup-inputs">
-      <input class="setup-input" id="scriptInput" placeholder="https://script.google.com/macros/s/.../exec" type="url">
+      <input class="setup-input" id="geminiInput" placeholder="AIzaSy..." type="text" oninput="document.getElementById('scriptInput').value=this.value">
+      <input class="setup-input" id="scriptInput" placeholder="https://script.google.com/..." type="url" style="display:none">
       <button class="setup-save" onclick="saveScript()">Guardar</button>
     </div>
   </div>
@@ -487,13 +488,22 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 function checkSetup(){
   const b=document.getElementById('setupBanner');
-  if(!SCRIPT_URL){b.classList.add('show');setStatus('not-configured');}else{b.classList.remove('show');setStatus('ok');}
+  const gk=localStorage.getItem('mlscanner_gemini_key')||'';
+  if(!gk){b.classList.add('show');setStatus('not-configured');}else{b.classList.remove('show');setStatus('ok');}
+  if(document.getElementById('geminiInput')&&gk) document.getElementById('geminiInput').value=gk;
 }
 function saveScript(){
   const v=document.getElementById('scriptInput').value.trim();
-  if(!v.startsWith('https://script.google.com/')){toast('⚠️ URL inválida','warn');return;}
-  SCRIPT_URL=v;localStorage.setItem('mlscanner_script',SCRIPT_URL);checkSetup();
-  toast('✅ Webhook guardado','ok');retrySyncPending();
+  if(v.startsWith('AIza')||v.length>20){
+    localStorage.setItem('mlscanner_gemini_key',v);
+    if(document.getElementById('geminiInput')) document.getElementById('geminiInput').value=v;
+    checkSetup();toast('✅ Gemini API Key guardada','ok');
+  } else if(v.startsWith('https://script.google.com/')){
+    SCRIPT_URL=v;localStorage.setItem('mlscanner_script',SCRIPT_URL);checkSetup();
+    toast('✅ Webhook guardado','ok');retrySyncPending();
+  } else {
+    toast('⚠️ Pega tu Gemini Key (AIza...) o URL de Sheets','warn');
+  }
 }
 function goTo(s,el){
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
@@ -539,17 +549,18 @@ async function processImage(imageData){
   try{
     const base64=imageData.split(',')[1];
     const mediaType=imageData.startsWith('data:image/png')?'image/png':'image/jpeg';
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:1000,
-        system:`Eres un sistema especializado en leer etiquetas de paquetería/logística de MercadoLibre.\n\nINSTRUCCIÓN CRÍTICA PARA "origen":\nEl origen se encuentra EXCLUSIVAMENTE en el CUADRO NEGRO (fondo negro con texto blanco/claro) ubicado en la PARTE SUPERIOR IZQUIERDA de la etiqueta. Lee únicamente el texto visible dentro de ese rectángulo oscuro. Si no existe ese cuadro negro en la esquina superior izquierda, devuelve null para origen. NO tomes el origen de otra parte.\n\nExtrae ÚNICAMENTE estos campos en JSON puro (sin markdown):\n{\n  "origen": "texto exacto del cuadro negro superior izquierdo, o null",\n  "id_paquete": "código de rastreo o número de guía, o null",\n  "fecha_promesa": "fecha prometida de entrega en formato DD/MM/YYYY, o null",\n  "confianza": número 0-100,\n  "notas": "observación breve o null"\n}\nResponde SOLO con el JSON.`,
-        messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:mediaType,data:base64}},{type:'text',text:'Extrae: 1) origen del cuadro negro ↖, 2) ID/guía del paquete, 3) fecha promesa.'}]}]
-      })
+    const res=const GEMINI_KEY=localStorage.getItem('mlscanner_gemini_key')||'';
+    if(!GEMINI_KEY)throw new Error('Sin API Key de Gemini');
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite-preview-06-17:generateContent?key=${GEMINI_KEY}`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{role:'user',parts:[
+        {inline_data:{mime_type:mediaType,data:base64}},
+        {text:'Eres experto en etiquetas MercadoLibre. Extrae SOLO JSON puro:\n{"origen":"texto del cuadro negro superior izquierdo o null","id_paquete":"codigo rastreo o null","fecha_promesa":"DD/MM/YYYY o null","confianza":0-100,"notas":"breve o null"}\nRespuesta: SOLO el JSON.'}
+      ]}],generationConfig:{maxOutputTokens:300,temperature:0.1}})
     });
     stepD('s2');stepV('s3');
     const data=await res.json();
-    const raw=data.content?.find(b=>b.type==='text')?.text||'{}';
+    const raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'{}';
     parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
   }catch(err){
     console.error(err);
