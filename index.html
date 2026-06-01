@@ -581,66 +581,66 @@ function parseOCRText(text){
   const lines=text.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
   let origen=null,id_paquete=null,fecha_promesa=null,confianza=50,notas=null;
 
-  // ── ORIGEN: código de bodega ML (XMT1, SMT1, GDL1, MTY2, QRO1, etc) ──
-  // Aparece en cuadro negro o en ruta "XMT1 > SMT1 > SMT1_D0"
-  // Buscar primero en ruta (más confiable)
-  const rutaM=text.match(/([A-Z]{2,4}\d{1,2})\s*[>\u2192]/);
-  if(rutaM) origen=rutaM[1];
-  // Si no, buscar línea que sea SOLO código de bodega
-  if(!origen){
-    for(const line of lines){
-      if(/^[A-Z]{2,4}\d{1,2}$/.test(line)){origen=line;break;}
-    }
+  // Normalizar errores OCR: ! y | → 1, t/l al final de código bodega → 1
+  const norm = t=>t
+    .replace(/[|!]/g,'1')
+    .replace(/(?<=[A-Z]{2,4})[tl]/g,'1')
+    .replace(/[oO](?=\d)/g,'0')
+    .replace(/(?<=\d)[oO]/g,'0');
+  const textN=norm(text);
+  const linesN=textN.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
+
+  // ── ORIGEN: código bodega ML (XMT1, SMT1, GDL1...) ──────────────────
+  // Buscar en cada línea normalizada con regex [A-Z]{2,4}[0-9]{1,2}
+  for(const line of linesN){
+    const m=line.match(/\b([A-Z]{2,4}[0-9]{1,2})\b/i);
+    if(m){origen=m[1].toUpperCase();break;}
   }
 
-  // ── ID/GUÍA: número bajo el código de barras ──────────────────────────
-  // Formato visto: "47180783985" — número de 8-15 dígitos solo en su línea
-  // También puede venir partido: "471807 83985" → unir
-  for(const line of lines){
+  // ── ID/GUÍA: número puro de 8-15 dígitos en su propia línea ────────
+  for(const line of linesN){
     const clean=line.replace(/\s/g,'');
     if(/^\d{8,15}$/.test(clean)&&!clean.startsWith('200')){
       id_paquete=clean;break;
     }
   }
-  // Venta ML: "200001668053 372" → tomar como fallback
+  // Fallback: número largo en cualquier línea
   if(!id_paquete){
-    const ventaM=text.match(/[Vv]enta[:\s]*([\d\s]{8,20})/);
-    if(ventaM) id_paquete=ventaM[1].replace(/\s/g,'').substring(0,15);
+    const m=textN.match(/\b(\d{9,15})\b/);
+    if(m&&!m[1].startsWith('200')) id_paquete=m[1];
   }
-  // Código lateral alfanumérico: "8MWTW2024WJM"
+  // Fallback 2: número de venta ML
   if(!id_paquete){
-    const altM=text.match(/\b([A-Z0-9]{10,20})\b/);
-    if(altM&&!/^[A-Z]{2,4}\d{1,2}$/.test(altM[1])) id_paquete=altM[1];
+    const m=textN.match(/[Vv]ent[ae][:\s]*([\d\s]{8,20})/);
+    if(m) id_paquete=m[1].replace(/\s/g,'').substring(0,15);
   }
 
   // ── FECHA PROMESA ─────────────────────────────────────────────────
-  const MESES={ene:1,feb:2,mar:3,abr:4,may:5,jun:6,jul:7,ago:8,sep:9,oct:10,nov:11,dic:12};
+  const MESES={ene:1,feb:2,mar:3,abr:4,may:5,jun:6,
+               jul:7,ago:8,sep:9,oct:10,nov:11,dic:12};
 
-  // "30/may" o "30/may/2026" o "Entregar: sábado 30/may"
-  const mesM=text.match(/(\d{1,2})\/([a-zA-Z]{3})(?:\/(\d{2,4}))?/);
-  if(mesM){
-    const d=mesM[1].padStart(2,'0');
-    const m=String(MESES[mesM[2].toLowerCase()]||1).padStart(2,'0');
-    const y=mesM[3]?(mesM[3].length===2?'20'+mesM[3]:mesM[3]):'2026';
-    fecha_promesa=d+'/'+m+'/'+y;
+  // Prioridad 1: "01/06/2026" o "LUN 01/06/2026" — formato completo
+  const fullM=textN.match(/\b(\d{1,2})\/(\d{1,2})\/(20\d{2})\b/);
+  if(fullM){
+    fecha_promesa=fullM[1].padStart(2,'0')+'/'+fullM[2].padStart(2,'0')+'/'+fullM[3];
   }
-  // "01/06/2026" o "LUN 01/06/2026"
+  // Prioridad 2: "30/may" — mes en texto (Tesseract lo lee bien)
   if(!fecha_promesa){
-    const ddM=text.match(/(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
-    if(ddM){
-      const y=ddM[3].length===2?'20'+ddM[3]:ddM[3];
-      fecha_promesa=ddM[1].padStart(2,'0')+'/'+ddM[2].padStart(2,'0')+'/'+y;
+    const mesM=text.match(/(\d{1,2})\/([a-zA-Záéíóú]{3})/);
+    if(mesM){
+      const key=mesM[2].toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+        .substring(0,3);
+      const mn=MESES[key];
+      if(mn) fecha_promesa=mesM[1].padStart(2,'0')+'/'+String(mn).padStart(2,'0')+'/2026';
     }
   }
 
   // ── CONFIANZA ─────────────────────────────────────────────────────
   const found=(origen?1:0)+(id_paquete?1:0)+(fecha_promesa?1:0);
-  confianza=found===3?92:found===2?72:found===1?45:20;
+  confianza=found===3?92:found===2?70:found===1?45:20;
   if(text.trim().length<30){confianza=15;notas='Imagen poco clara — acerca la cámara';}
-
-  // DEBUG: mostrar OCR crudo en notas
   if(!notas) notas='OCR: '+text.replace(/\n/g,' ').trim().substring(0,150);
-
   return{origen,id_paquete,fecha_promesa,confianza,notas};
 }
 
