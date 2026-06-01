@@ -578,65 +578,69 @@ async function processImage(imageData){
 }
 
 function parseOCRText(text){
-  const lines=text.split('\n').map(l=>l.trim()).filter(l=>l.length>2);
-  const full=text.toUpperCase();
-  let origen=null,id_paquete=null,fecha_promesa=null,confianza=60,notas=null;
+  const lines=text.split('\n').map(l=>l.trim()).filter(l=>l.length>0);
+  let origen=null,id_paquete=null,fecha_promesa=null,confianza=50,notas=null;
 
-  // ID / Guía: busca patrones de tracking MercadoLibre
-  const idPatterns=[
-    /\b(MP[A-Z]{2}\d{8,14})\b/,          // MPME12345678
-    /\b([A-Z]{2}\d{9}[A-Z]{2})\b/,        // MX123456789MX (postal)
-    /\b(\d{20,22})\b/,                     // número largo (Estafeta/FedEx)
-    /\b([A-Z0-9]{10,25})\b/,               // código alfanumérico genérico
-  ];
-  for(const p of idPatterns){
-    const m=text.match(p);
-    if(m){id_paquete=m[1];break;}
-  }
-
-  // Fecha promesa: DD/MM/YYYY o variantes
-  const datePatterns=[
-    /(\d{1,2}[\/\-\.](\d{1,2})[\/\-\.](\d{2,4}))/,
-    /ENTREGA[:\s]+(.{5,15})/i,
-    /PROMESA[:\s]+(.{5,15})/i,
-    /FECHA[:\s]+(.{5,15})/i,
-  ];
-  for(const p of datePatterns){
-    const m=text.match(p);
-    if(m){
-      let d=m[1].replace(/[-\.]/g,'/');
-      // normalize to DD/MM/YYYY
-      const parts=d.split('/');
-      if(parts.length===3){
-        const yr=parts[2].length===2?'20'+parts[2]:parts[2];
-        fecha_promesa=parts[0].padStart(2,'0')+'/'+parts[1].padStart(2,'0')+'/'+yr;
-      }
-      break;
+  // ── ORIGEN: código de bodega ML (XMT1, SMT1, GDL1, MTY2, QRO1, etc) ──
+  // Aparece en cuadro negro o en ruta "XMT1 > SMT1 > SMT1_D0"
+  // Buscar primero en ruta (más confiable)
+  const rutaM=text.match(/([A-Z]{2,4}\d{1,2})\s*[>\u2192]/);
+  if(rutaM) origen=rutaM[1];
+  // Si no, buscar línea que sea SOLO código de bodega
+  if(!origen){
+    for(const line of lines){
+      if(/^[A-Z]{2,4}\d{1,2}$/.test(line)){origen=line;break;}
     }
   }
 
-  // Origen (cuadro negro superior izquierdo): primeras líneas del texto
-  // Busca palabras que parezcan origen/ciudad
-  const ciudades=['CDMX','GDL','MTY','MONTERREY','GUADALAJARA','MEXICO','PUEBLA','QUERETARO','CANCUN','TIJUANA','MERIDA','HERMOSILLO','CHIHUAHUA','LEON','TOLUCA','VERACRUZ','ACAPULCO','CULIACAN','AGUASCALIENTES','MORELIA'];
-  for(const ciudad of ciudades){
-    if(full.includes(ciudad)){origen=ciudad;break;}
+  // ── ID/GUÍA: número bajo el código de barras ──────────────────────────
+  // Formato visto: "47180783985" — número de 8-15 dígitos solo en su línea
+  // También puede venir partido: "471807 83985" → unir
+  for(const line of lines){
+    const clean=line.replace(/\s/g,'');
+    if(/^\d{8,15}$/.test(clean)&&!clean.startsWith('200')){
+      id_paquete=clean;break;
+    }
   }
-  // Si no encontró ciudad conocida, toma la primera línea corta como origen
-  if(!origen && lines.length>0){
-    const firstLine=lines[0];
-    if(firstLine.length>=3 && firstLine.length<=30 && !/\d{5,}/.test(firstLine)){
-      origen=firstLine;
+  // Venta ML: "200001668053 372" → tomar como fallback
+  if(!id_paquete){
+    const ventaM=text.match(/[Vv]enta[:\s]*([\d\s]{8,20})/);
+    if(ventaM) id_paquete=ventaM[1].replace(/\s/g,'').substring(0,15);
+  }
+  // Código lateral alfanumérico: "8MWTW2024WJM"
+  if(!id_paquete){
+    const altM=text.match(/\b([A-Z0-9]{10,20})\b/);
+    if(altM&&!/^[A-Z]{2,4}\d{1,2}$/.test(altM[1])) id_paquete=altM[1];
+  }
+
+  // ── FECHA PROMESA ─────────────────────────────────────────────────
+  const MESES={ene:1,feb:2,mar:3,abr:4,may:5,jun:6,jul:7,ago:8,sep:9,oct:10,nov:11,dic:12};
+
+  // "30/may" o "30/may/2026" o "Entregar: sábado 30/may"
+  const mesM=text.match(/(\d{1,2})\/([a-zA-Z]{3})(?:\/(\d{2,4}))?/);
+  if(mesM){
+    const d=mesM[1].padStart(2,'0');
+    const m=String(MESES[mesM[2].toLowerCase()]||1).padStart(2,'0');
+    const y=mesM[3]?(mesM[3].length===2?'20'+mesM[3]:mesM[3]):'2026';
+    fecha_promesa=d+'/'+m+'/'+y;
+  }
+  // "01/06/2026" o "LUN 01/06/2026"
+  if(!fecha_promesa){
+    const ddM=text.match(/(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
+    if(ddM){
+      const y=ddM[3].length===2?'20'+ddM[3]:ddM[3];
+      fecha_promesa=ddM[1].padStart(2,'0')+'/'+ddM[2].padStart(2,'0')+'/'+y;
     }
   }
 
-  // Confianza basada en cuántos campos encontramos
-  let found=0;
-  if(origen)found++;if(id_paquete)found++;if(fecha_promesa)found++;
-  confianza=found===3?85:found===2?65:found===1?45:25;
+  // ── CONFIANZA ─────────────────────────────────────────────────────
+  const found=(origen?1:0)+(id_paquete?1:0)+(fecha_promesa?1:0);
+  confianza=found===3?92:found===2?72:found===1?45:20;
+  if(text.trim().length<30){confianza=15;notas='Imagen poco clara — acerca la cámara';}
 
-  if(text.trim().length<20){notas='Imagen poco clara — acerca más la cámara';confianza=15;}
-  // DEBUG: always show first 120 chars of OCR in notas
-  if(!notas) notas='OCR: '+text.replace(/\n/g,' ').trim().substring(0,120);
+  // DEBUG: mostrar OCR crudo en notas
+  if(!notas) notas='OCR: '+text.replace(/\n/g,' ').trim().substring(0,150);
+
   return{origen,id_paquete,fecha_promesa,confianza,notas};
 }
 
